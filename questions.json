@@ -1124,15 +1124,15 @@
       "id": 81,
       "cat": "Superfotbal Romanesc",
       "level": 5,
-      "q": "Cu ce club a jucat Gica Hagi ultima oara ca fotbalist activ?",
+      "q": "Cu ce club a jucat Gica Hagi ultima oara ca fotbalist activ (s-a retras in 2001)?",
       "a": [
-        "Viitorul Constanta",
         "Galatasaray",
+        "Viitorul Constanta",
         "Brescia",
         "Rangers"
       ],
       "correct": 0,
-      "source": "https://en.wikipedia.org/wiki/Gheorghe_Hagi#Club_career"
+      "source": "https://en.wikipedia.org/wiki/Gheorghe_Hagi"
     },
     {
       "id": 82,
@@ -1152,15 +1152,15 @@
       "id": 83,
       "cat": "Superfotbal Romanesc",
       "level": 5,
-      "q": "Cine a marcat golul Romaniei la CM 1990 in meciul 1-0 cu Irlanda in optimi?",
+      "q": "Cum s-a terminat meciul Romania vs Irlanda la CM 1990 inainte de penalty-uri?",
       "a": [
-        "Rodion Camataru",
-        "Florin Raducioiu",
-        "Gica Hagi",
-        "Ioan Sabau"
+        "0-0",
+        "1-0",
+        "1-1",
+        "2-1"
       ],
       "correct": 0,
-      "source": "https://en.wikipedia.org/wiki/1990_FIFA_World_Cup_round_of_16#Republic_of_Ireland_v_Romania"
+      "source": "https://en.wikipedia.org/wiki/Republic_of_Ireland_v_Romania_(1990_FIFA_World_Cup)"
     },
     {
       "id": 84,
