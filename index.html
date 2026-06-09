@@ -625,14 +625,7 @@ body { background: var(--black); color: var(--text); font-family: 'Inter', sans-
     </div>
 
     <div class="field-label">Nivel dificultate</div>
-    <div class="level-row">
-      <button class="level-btn all-lv active" data-lv="all" onclick="setLevel('all',this)">Toate</button>
-      <button class="level-btn" data-lv="1" onclick="setLevel(1,this)">1 Usor</button>
-      <button class="level-btn" data-lv="2" onclick="setLevel(2,this)">2 Mediu</button>
-      <button class="level-btn" data-lv="3" onclick="setLevel(3,this)">3 Avansat</button>
-      <button class="level-btn" data-lv="4" onclick="setLevel(4,this)">4 Expert</button>
-      <button class="level-btn" data-lv="5" onclick="setLevel(5,this)">5 Maestru</button>
-    </div>
+    <div class="level-row" id="level-row"></div>
 
     <div class="field-label">Numar intrebari</div>
     <div class="q-count-row">
@@ -781,6 +774,7 @@ function setCat(cat, btn) {
   state.selectedCat = cat;
   document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
+  renderLevelButtons();
 }
 
 function setLevel(lv, btn) {
@@ -789,10 +783,47 @@ function setLevel(lv, btn) {
   btn.classList.add('active');
 }
 
+function renderLevelButtons() {
+  const cat = state.selectedCat;
+  const available = new Set(
+    QUESTIONS
+      .filter(q => cat === 'all' || q.cat === cat)
+      .map(q => q.level)
+  );
+  const labels = {1:'1 Usor', 2:'2 Mediu', 3:'3 Avansat', 4:'4 Expert', 5:'5 Maestru'};
+  const row = document.getElementById('level-row');
+  row.innerHTML = '';
+
+  // "Toate" button
+  const allBtn = document.createElement('button');
+  allBtn.className = 'level-btn all-lv' + (state.selectedLevel === 'all' ? ' active' : '');
+  allBtn.dataset.lv = 'all';
+  allBtn.textContent = 'Toate';
+  allBtn.onclick = () => setLevel('all', allBtn);
+  row.appendChild(allBtn);
+
+  [1,2,3,4,5].forEach(lv => {
+    if (!available.has(lv)) return;
+    const btn = document.createElement('button');
+    btn.className = 'level-btn' + (state.selectedLevel === lv ? ' active' : '');
+    btn.dataset.lv = lv;
+    btn.textContent = labels[lv];
+    btn.onclick = () => setLevel(lv, btn);
+    row.appendChild(btn);
+  });
+
+  // if selected level no longer available, reset to all
+  if (state.selectedLevel !== 'all' && !available.has(state.selectedLevel)) {
+    state.selectedLevel = 'all';
+    row.querySelector('.all-lv').classList.add('active');
+  }
+}
+
 function showLanding() {
   show('screen-landing');
   const saved = localStorage.getItem('ftq_last_player');
   if (saved) document.getElementById('player-name-input').value = saved;
+  renderLevelButtons();
 }
 
 // ================================================
