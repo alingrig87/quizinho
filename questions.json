@@ -1572,7 +1572,7 @@
       "id": 113,
       "cat": "Superfotbal Romanesc",
       "level": 3,
-      "q": "Cine a marcat primul gol al Romaniei la Cupa Mondiala 1994 contra Columbiei?",
+      "q": "Cine a marcat primul gol al Romaniei in victoria 3-1 contra Columbiei la CM 1994?",
       "a": [
         "Florin Raducioiu",
         "Ilie Dumitrescu",
@@ -1580,7 +1580,7 @@
         "Dan Petrescu"
       ],
       "correct": 0,
-      "source": "https://en.wikipedia.org/wiki/1994_FIFA_World_Cup_Group_A"
+      "source": "https://www.footballdatabase.eu/en/match/overview/1024983-roumanie-colombie"
     },
     {
       "id": 114,
@@ -1600,15 +1600,15 @@
       "id": 115,
       "cat": "Superfotbal Romanesc",
       "level": 3,
-      "q": "Cine a marcat golul victoriei pentru Romania contra Argentinei la CM 1994 (3-2)?",
+      "q": "Cine a marcat al treilea gol al Romaniei in victoria 3-2 contra Argentinei la CM 1994?",
       "a": [
-        "Ilie Dumitrescu",
         "Gica Hagi",
+        "Ilie Dumitrescu",
         "Florin Raducioiu",
         "Dan Petrescu"
       ],
       "correct": 0,
-      "source": "https://en.wikipedia.org/wiki/1994_FIFA_World_Cup_round_of_16"
+      "source": "https://www.footballdatabase.eu/en/match/overview/1025050-roumanie-argentine"
     },
     {
       "id": 116,
@@ -1804,7 +1804,7 @@
         "Suedia"
       ],
       "correct": 0,
-      "source": "https://en.wikipedia.org/wiki/Ilie_Dumitrescu"
+      "source": "https://www.worldcuppro.com/players/ilie-dumitrescu"
     },
     {
       "id": 130,
@@ -2076,7 +2076,7 @@
       "id": 149,
       "cat": "Champions League",
       "level": 3,
-      "q": "Cine a marcat singurul gol al finalei Champions League 2016 (Real Madrid vs Atletico Madrid)?",
+      "q": "Cine a marcat golul egalizator pentru Real Madrid in minutul 90+3 in finala CL 2016 contra Atletico?",
       "a": [
         "Sergio Ramos",
         "Gareth Bale",
@@ -2084,7 +2084,7 @@
         "Karim Benzema"
       ],
       "correct": 0,
-      "source": "https://en.wikipedia.org/wiki/2015%E2%80%9316_UEFA_Champions_League_Final"
+      "source": "https://www.uefa.com/uefachampionsleague/history/winners/finals/"
     },
     {
       "id": 150,
@@ -2622,15 +2622,15 @@
       "id": 188,
       "cat": "Cupa Mondiala",
       "level": 5,
-      "q": "Care selectioner a castigat Cupa Mondiala ca jucator cu Brazilia (1970) si ca antrenor cu Franta (1998)?",
+      "q": "Cine a fost primul selectioner care a castigat Cupa Mondiala ca jucator si ca antrenor?",
       "a": [
-        "Niciunul - au fost persoane diferite",
-        "Aimé Jacquet",
-        "Mario Zagallo",
-        "Didier Deschamps"
+        "Mario Zagallo (Brazilia)",
+        "Didier Deschamps (Franta)",
+        "Franz Beckenbauer (Germania)",
+        "Vicente del Bosque (Spania)"
       ],
-      "correct": 2,
-      "source": "https://en.wikipedia.org/wiki/M%C3%A1rio_Zagallo"
+      "correct": 0,
+      "source": "https://inside.fifa.com/organisation/news/a-tribute-to-mario-zagallo-1931-2024"
     },
     {
       "id": 189,
@@ -3182,12 +3182,12 @@
       "id": 228,
       "cat": "Fotbal Mondial",
       "level": 3,
-      "q": "Cine este singurul jucator care a castigat CM, CL si Euro in acelasi an?",
+      "q": "Poate un jucator castiga CM, Champions League si Campionatul European in acelasi an?",
       "a": [
-        "Nimeni nu a reusit asta (nu coincid)",
-        "Zinedine Zidane",
-        "Ronaldo",
-        "Iniesta"
+        "Nu - CM si Euro nu se joaca in acelasi an",
+        "Da, e posibil teoretic",
+        "Da, Zidane a reusit asta",
+        "Da, Ronaldo a reusit asta"
       ],
       "correct": 0,
       "source": "https://en.wikipedia.org/wiki/FIFA_World_Cup"
