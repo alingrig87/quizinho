@@ -132,6 +132,35 @@ body { background: var(--black); color: var(--text); font-family: 'Inter', sans-
   color: var(--green);
 }
 
+.level-row {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.level-btn {
+  flex: 1;
+  min-width: 50px;
+  background: var(--card2);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  border-radius: 8px;
+  padding: 9px 4px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.12s;
+  text-align: center;
+}
+.level-btn:hover { border-color: var(--green); color: var(--text); }
+.level-btn.active { background: var(--green-glow); border-color: var(--green); color: var(--green); }
+.level-btn[data-lv="1"].active { border-color:#2979FF; background:rgba(41,121,255,0.1); color:#2979FF; }
+.level-btn[data-lv="2"].active { border-color:#00C853; background:rgba(0,200,83,0.1); color:#00C853; }
+.level-btn[data-lv="3"].active { border-color:#FFD600; background:rgba(255,214,0,0.1); color:#FFD600; }
+.level-btn[data-lv="4"].active { border-color:#FF6D00; background:rgba(255,109,0,0.1); color:#FF6D00; }
+.level-btn[data-lv="5"].active { border-color:#FF1744; background:rgba(255,23,68,0.1); color:#FF1744; }
+.level-btn.all-lv.active { border-color:var(--green); background:var(--green-glow); color:var(--green); }
+
 .primary-btn {
   width: 100%;
   background: var(--green);
@@ -580,6 +609,16 @@ body { background: var(--black); color: var(--text); font-family: 'Inter', sans-
       <button class="cat-btn" onclick="setCat('Sport General', this)">Sport General</button>
     </div>
 
+    <div class="field-label">Nivel dificultate</div>
+    <div class="level-row">
+      <button class="level-btn all-lv active" data-lv="all" onclick="setLevel('all',this)">Toate</button>
+      <button class="level-btn" data-lv="1" onclick="setLevel(1,this)">1 Usor</button>
+      <button class="level-btn" data-lv="2" onclick="setLevel(2,this)">2 Mediu</button>
+      <button class="level-btn" data-lv="3" onclick="setLevel(3,this)">3 Avansat</button>
+      <button class="level-btn" data-lv="4" onclick="setLevel(4,this)">4 Expert</button>
+      <button class="level-btn" data-lv="5" onclick="setLevel(5,this)">5 Maestru</button>
+    </div>
+
     <div class="field-label">Numar intrebari</div>
     <div class="q-count-row">
       <button class="q-count-btn" onclick="setQCount(5, this)">5</button>
@@ -646,282 +685,7 @@ body { background: var(--black); color: var(--text); font-family: 'Inter', sans-
 //  QUESTION BANK  - categorii: Superfotbal RO, Champions League,
 //  Cupa Mondială, Sport General, Euro Fotbal, Fotbal Mondial
 // ================================================
-const QUESTIONS = [
-
-  // -- SUPERFOTBAL ROMÂNESC --─────────────────────────────
-  { cat: "Superfotbal Românesc", pts: 10,
-    q: "Care club românesc a câștigat cele mai multe titluri de campioană din istoria fotbalului românesc?",
-    a: ["Steaua București", "Dinamo", "Rapid", "CFR Cluj"], correct: 0 },
-
-  { cat: "Superfotbal Românesc", pts: 10,
-    q: "În ce an a câștigat Steaua București Cupa Campionilor Europeni?",
-    a: ["1986", "1984", "1989", "1990"], correct: 0 },
-
-  { cat: "Superfotbal Românesc", pts: 10,
-    q: "Cine a marcat golul decisiv la loviturile de departajare în finala Cupei Campionilor 1986?",
-    a: ["Helmuth Duckadam", "Marius Lăcătuș", "Rodion Cămătaru", "Gică Hagi"], correct: 0 },
-
-  { cat: "Superfotbal Românesc", pts: 10,
-    q: "Câte goluri a marcat Rodion Cămătaru în sezonul 1986-1987, câștigând Gheata de Aur?",
-    a: ["44", "40", "38", "50"], correct: 0 },
-
-  { cat: "Superfotbal Românesc", pts: 10,
-    q: "Care stadion din România are cea mai mare capacitate?",
-    a: ["Arena Națională", "Giulești", "Dinamo", "Ion Oblemenco"], correct: 0 },
-
-  { cat: "Superfotbal Românesc", pts: 10,
-    q: "Gică Hagi a evoluat la care dintre aceste cluburi românești?",
-    a: ["Viitorul Constanța", "Petrolul Ploiești", "Oțelul Galați", "Universitatea Cluj"], correct: 0 },
-
-  { cat: "Superfotbal Românesc", pts: 10,
-    q: "CFR Cluj a câștigat primul titlu de campioană în ce an?",
-    a: ["2008", "2010", "2006", "2012"], correct: 0 },
-
-  { cat: "Superfotbal Românesc", pts: 10,
-    q: "Care echipă românească a ajuns în semifinalele Cupei UEFA în sezonul 2005-2006?",
-    a: ["Rapid București", "Steaua București", "Dinamo", "CFR Cluj"], correct: 0 },
-
-  { cat: "Superfotbal Românesc", pts: 10,
-    q: "Câți jucători români au evoluat la Campionatul Mondial din 1994, unde România a ajuns în sferturi?",
-    a: ["22", "18", "20", "25"], correct: 0 },
-
-  { cat: "Superfotbal Românesc", pts: 10,
-    q: "Cine a antrenat România la Cupa Mondială din 1994 din SUA?",
-    a: ["Anghel Iordănescu", "Mircea Lucescu", "Emerich Jenei", "Cornel Dinu"], correct: 0 },
-
-  { cat: "Superfotbal Românesc", pts: 10,
-    q: "Împotriva cărui adversar a marcat Gică Hagi un gol fabulos de la 40 de metri la CM 1994?",
-    a: ["Columbia", "Argentina", "Suedia", "SUA"], correct: 0 },
-
-  { cat: "Superfotbal Românesc", pts: 10,
-    q: "Cum se numește baza de pregătire a echipei naționale a României?",
-    a: ["Mogoșoaia", "Snagov", "Buftea", "Otopeni"], correct: 0 },
-
-  // -- CHAMPIONS LEAGUE --───────────────────────────────
-  { cat: "Champions League", pts: 10,
-    q: "Cine deține recordul de goluri marcate în Champions League?",
-    a: ["Cristiano Ronaldo", "Lionel Messi", "Raúl", "Robert Lewandowski"], correct: 0 },
-
-  { cat: "Champions League", pts: 10,
-    q: "Care club a câștigat cele mai multe titluri Champions League / Cupa Campionilor?",
-    a: ["Real Madrid", "AC Milan", "Bayern Munich", "Barcelona"], correct: 0 },
-
-  { cat: "Champions League", pts: 10,
-    q: "Unde s-a jucat finala Champions League din 2023, câștigată de Manchester City?",
-    a: ["Istanbul", "Paris", "Madrid", "Lisabona"], correct: 0 },
-
-  { cat: "Champions League", pts: 10,
-    q: "Cine a câștigat Champions League în 2022, învingând Liverpool în finală?",
-    a: ["Real Madrid", "Manchester City", "Chelsea", "Atletico Madrid"], correct: 0 },
-
-  { cat: "Champions League", pts: 10,
-    q: "Care echipă a câștigat Champions League de 5 ori consecutiv (1956-1960)?",
-    a: ["Real Madrid", "Benfica", "Internazionale", "Ajax"], correct: 0 },
-
-  { cat: "Champions League", pts: 10,
-    q: "Câte echipe participă în actuala fază de grupe a Champions League (format nou din 2024)?",
-    a: ["36", "32", "24", "48"], correct: 0 },
-
-  { cat: "Champions League", pts: 10,
-    q: "Cine a marcat golul victoriei pentru Liverpool în finala Champions League 2019 (vs Tottenham)?",
-    a: ["Mohamed Salah", "Sadio Mané", "Roberto Firmino", "Divock Origi"], correct: 0 },
-
-  { cat: "Champions League", pts: 10,
-    q: "Ce țară a furnizat cei mai mulți câștigători diferiți ai Champions League?",
-    a: ["Spania", "Anglia", "Italia", "Germania"], correct: 0 },
-
-  { cat: "Champions League", pts: 10,
-    q: "Ajax a câștigat ultima oară Champions League în ce an?",
-    a: ["1995", "1992", "1998", "2000"], correct: 0 },
-
-  { cat: "Champions League", pts: 10,
-    q: "Care a fost primul club englez câștigător al Cupei Campionilor?",
-    a: ["Manchester United", "Liverpool", "Nottingham Forest", "Aston Villa"], correct: 0 },
-
-  { cat: "Champions League", pts: 10,
-    q: "Cine a câștigat Champions League 2020 cu Bayern Munich, marcând de două ori în finală?",
-    a: ["Kingsley Coman", "Robert Lewandowski", "Thomas Müller", "Serge Gnabry"], correct: 0 },
-
-  // -- CUPA MONDIALĂ --──────────────────────────────────
-  { cat: "Cupa Mondială", pts: 10,
-    q: "Care țară a câștigat cele mai multe Cupe Mondiale?",
-    a: ["Brazilia", "Germania", "Italia", "Argentina"], correct: 0 },
-
-  { cat: "Cupa Mondială", pts: 10,
-    q: "Unde s-a organizat primul Campionat Mondial de Fotbal din 1930?",
-    a: ["Uruguay", "Brazilia", "Argentina", "Chile"], correct: 0 },
-
-  { cat: "Cupa Mondială", pts: 10,
-    q: "Cine a câștigat Cupa Mondială din 2022 din Qatar?",
-    a: ["Argentina", "Franța", "Maroc", "Croația"], correct: 0 },
-
-  { cat: "Cupa Mondială", pts: 10,
-    q: "Cine este cel mai bun marcator din istoria Cupei Mondiale (toate edițiile)?",
-    a: ["Miroslav Klose", "Ronaldo (Brazilia)", "Gerd Müller", "Just Fontaine"], correct: 0 },
-
-  { cat: "Cupa Mondială", pts: 10,
-    q: "La Cupa Mondială 2018, cine a câștigat titlul de cel mai bun jucător al turneului?",
-    a: ["Luka Modrić", "Kylian Mbappé", "Antoine Griezmann", "Eden Hazard"], correct: 0 },
-
-  { cat: "Cupa Mondială", pts: 10,
-    q: "Câte Cupe Mondiale a câștigat Pelé?",
-    a: ["3", "2", "1", "4"], correct: 0 },
-
-  { cat: "Cupa Mondială", pts: 10,
-    q: "Cine a marcat golul cu mâna lui Dumnezeu la CM 1986?",
-    a: ["Diego Maradona", "Jorge Valdano", "Carlos Bilardo", "Oscar Ruggeri"], correct: 0 },
-
-  { cat: "Cupa Mondială", pts: 10,
-    q: "Franța a câștigat Cupa Mondială pentru prima oară în ce an?",
-    a: ["1998", "2002", "2006", "2010"], correct: 0 },
-
-  { cat: "Cupa Mondială", pts: 10,
-    q: "Care echipă a câștigat Cupa Mondială din 2010 din Africa de Sud?",
-    a: ["Spania", "Olanda", "Germania", "Uruguay"], correct: 0 },
-
-  { cat: "Cupa Mondială", pts: 10,
-    q: "Câte goluri a marcat Miroslav Klose în turneele finale ale Cupei Mondiale?",
-    a: ["16", "14", "15", "13"], correct: 0 },
-
-  { cat: "Cupa Mondială", pts: 10,
-    q: "Italia a câștigat a patra sa Cupă Mondială în ce an?",
-    a: ["2006", "2002", "1998", "2010"], correct: 0 },
-
-  { cat: "Cupa Mondială", pts: 10,
-    q: "Care echipă africană a ajuns prima dată în semifinalele Cupei Mondiale în 2022?",
-    a: ["Maroc", "Senegal", "Camerun", "Ghana"], correct: 0 },
-
-  // -- SPORT GENERAL --──────────────────────────────────
-  { cat: "Sport General", pts: 10,
-    q: "Câte titluri Grand Slam a câștigat Rafael Nadal în total?",
-    a: ["22", "20", "21", "23"], correct: 0 },
-
-  { cat: "Sport General", pts: 10,
-    q: "La ce echipă NBA joacă LeBron James momentan (2024-2025)?",
-    a: ["Los Angeles Lakers", "Miami Heat", "Cleveland Cavaliers", "Golden State Warriors"], correct: 0 },
-
-  { cat: "Sport General", pts: 10,
-    q: "Câte titluri mondiale Formula 1 a câștigat Michael Schumacher?",
-    a: ["7", "5", "6", "4"], correct: 0 },
-
-  { cat: "Sport General", pts: 10,
-    q: "Usain Bolt deține recordul mondial la 100m. Care este acesta?",
-    a: ["9.58 secunde", "9.63 secunde", "9.72 secunde", "9.50 secunde"], correct: 0 },
-
-  { cat: "Sport General", pts: 10,
-    q: "Câte titluri NBA a câștigat Michael Jordan cu Chicago Bulls?",
-    a: ["6", "5", "4", "7"], correct: 0 },
-
-  { cat: "Sport General", pts: 10,
-    q: "Serena Williams a câștigat câte titluri de Grand Slam?",
-    a: ["23", "21", "19", "25"], correct: 0 },
-
-  { cat: "Sport General", pts: 10,
-    q: "Țara care a organizat Jocurile Olimpice de vară din 2020 (desfășurate în 2021)?",
-    a: ["Japonia", "China", "Brazilia", "Coreea de Sud"], correct: 0 },
-
-  { cat: "Sport General", pts: 10,
-    q: "Câte titluri mondiale de Formula 1 are Lewis Hamilton?",
-    a: ["7", "6", "5", "8"], correct: 0 },
-
-  { cat: "Sport General", pts: 10,
-    q: "Care echipă de baschet NBA a câștigat cele mai multe titluri din istoria ligii?",
-    a: ["Boston Celtics", "Los Angeles Lakers", "Chicago Bulls", "Golden State Warriors"], correct: 0 },
-
-  { cat: "Sport General", pts: 10,
-    q: "La ce sport evoluează Novak Djokovic?",
-    a: ["Tenis", "Squash", "Badminton", "Padel"], correct: 0 },
-
-  { cat: "Sport General", pts: 10,
-    q: "Câte titluri de Grand Slam a câștigat Novak Djokovic?",
-    a: ["24", "22", "21", "23"], correct: 0 },
-
-  { cat: "Sport General", pts: 10,
-    q: "Maratonul olimpic are distanța de:",
-    a: ["42.195 km", "40 km", "42 km", "43 km"], correct: 0 },
-
-  // -- EURO FOTBAL --────────────────────────────────────
-  { cat: "Euro Fotbal", pts: 10,
-    q: "Cine a câștigat UEFA Euro 2020 (desfășurat în 2021)?",
-    a: ["Italia", "Anglia", "Spania", "Danemarca"], correct: 0 },
-
-  { cat: "Euro Fotbal", pts: 10,
-    q: "Care țară a câștigat cele mai multe titluri la Campionatul European (UEFA Euro)?",
-    a: ["Germania / Germania de Vest", "Spania", "Franța", "Italia"], correct: 0 },
-
-  { cat: "Euro Fotbal", pts: 10,
-    q: "Unde s-a jucat finala UEFA Euro 2024?",
-    a: ["Berlin", "München", "Dortmund", "Hamburg"], correct: 0 },
-
-  { cat: "Euro Fotbal", pts: 10,
-    q: "Cine a câștigat UEFA Euro 2024?",
-    a: ["Spania", "Anglia", "Germania", "Franța"], correct: 0 },
-
-  { cat: "Euro Fotbal", pts: 10,
-    q: "Cine a câștigat primul Campionat European de Fotbal din 1960?",
-    a: ["URSS", "Iugoslavia", "Franța", "Cehoslovacia"], correct: 0 },
-
-  { cat: "Euro Fotbal", pts: 10,
-    q: "La Euro 2016, Cristiano Ronaldo a câștigat titlul cu care echipă națională?",
-    a: ["Portugalia", "Franța", "Spania", "Croația"], correct: 0 },
-
-  { cat: "Euro Fotbal", pts: 10,
-    q: "Danemarca a câștigat în mod surprinzător UEFA Euro în ce an?",
-    a: ["1992", "1988", "1996", "2000"], correct: 0 },
-
-  { cat: "Euro Fotbal", pts: 10,
-    q: "Grecia a câștigat în mod surprinzător UEFA Euro în ce an?",
-    a: ["2004", "2000", "2008", "2012"], correct: 0 },
-
-  { cat: "Euro Fotbal", pts: 10,
-    q: "Cine deține recordul de goluri marcate la turneele finale ale Campionatului European?",
-    a: ["Cristiano Ronaldo", "Michel Platini", "Zlatan Ibrahimović", "Ruud van Nistelrooy"], correct: 0 },
-
-  // -- FOTBAL MONDIAL (extra) --──────────────────────────
-  { cat: "Fotbal Mondial", pts: 10,
-    q: "Lionel Messi a câștigat câte Baloane de Aur?",
-    a: ["8", "7", "6", "5"], correct: 0 },
-
-  { cat: "Fotbal Mondial", pts: 10,
-    q: "Cristiano Ronaldo a câștigat câte Baloane de Aur?",
-    a: ["5", "6", "4", "7"], correct: 0 },
-
-  { cat: "Fotbal Mondial", pts: 10,
-    q: "La ce club a evoluat Zinedine Zidane în vârful carierei sale?",
-    a: ["Real Madrid", "Juventus", "Marseille", "Bordeaux"], correct: 0 },
-
-  { cat: "Fotbal Mondial", pts: 10,
-    q: "Pep Guardiola a câștigat Champions League ca antrenor cu care club?",
-    a: ["Manchester City", "Barcelona", "Bayern Munich", "Toți cei trei"], correct: 3 },
-
-  { cat: "Fotbal Mondial", pts: 10,
-    q: "Care jucător este cunoscut ca 'El Fenomeno'?",
-    a: ["Ronaldo (Brazilia)", "Ronaldinho", "Rivaldo", "Romário"], correct: 0 },
-
-  { cat: "Fotbal Mondial", pts: 10,
-    q: "Ronaldinho a câștigat Balonul de Aur în ce an?",
-    a: ["2005", "2004", "2006", "2003"], correct: 0 },
-
-  { cat: "Fotbal Mondial", pts: 10,
-    q: "Care a fost primul african câștigător al Balonului de Aur?",
-    a: ["George Weah", "Samuel Eto'o", "Didier Drogba", "Yaya Touré"], correct: 0 },
-
-  { cat: "Fotbal Mondial", pts: 10,
-    q: "La ce club a jucat Johan Cruyff cel mai mult?",
-    a: ["Ajax", "Barcelona", "Feyenoord", "LA Aztecs"], correct: 0 },
-
-  { cat: "Fotbal Mondial", pts: 10,
-    q: "Câte goluri a marcat Gerd Müller pentru Germania de Vest la Cupa Mondială 1970?",
-    a: ["10", "8", "7", "9"], correct: 0 },
-
-  { cat: "Fotbal Mondial", pts: 10,
-    q: "Care este recordul de goluri marcate de o echipă într-un singur meci la Cupa Mondială?",
-    a: ["10-0 (Ungaria vs El Salvador, 1982)", "9-0 (Iugoslavia vs Zair, 1974)", "8-0", "11-0"], correct: 0 },
-
-  { cat: "Fotbal Mondial", pts: 10,
-    q: "Kylian Mbappé a semnat cu care club în vara lui 2024?",
-    a: ["Real Madrid", "Paris Saint-Germain", "Liverpool", "Bayern Munich"], correct: 0 },
-];
+const QUESTIONS = [{"id": 1, "cat": "Fotbal Mondial", "level": 1, "q": "Cate echipe participa la o Cupa Mondiala de fotbal (format pana in 2026)?", "a": ["32", "24", "16", "48"], "correct": 0}, {"id": 2, "cat": "Fotbal Mondial", "level": 1, "q": "In ce tara s-a jucat Cupa Mondiala din 2018?", "a": ["Rusia", "Brazilia", "Germania", "Franta"], "correct": 0}, {"id": 3, "cat": "Fotbal Mondial", "level": 1, "q": "Care este cea mai titrata echipa nationala din istoria Cupei Mondiale?", "a": ["Brazilia", "Germania", "Italia", "Argentina"], "correct": 0}, {"id": 4, "cat": "Fotbal Mondial", "level": 1, "q": "Lionel Messi joaca pentru ce tara?", "a": ["Argentina", "Spania", "Brazilia", "Uruguay"], "correct": 0}, {"id": 5, "cat": "Fotbal Mondial", "level": 1, "q": "La ce club a jucat Cristiano Ronaldo inainte de Al-Nassr?", "a": ["Manchester United", "Real Madrid", "Juventus", "Sporting CP"], "correct": 0}, {"id": 6, "cat": "Champions League", "level": 1, "q": "Care club a castigat cele mai multe titluri in Champions League?", "a": ["Real Madrid", "AC Milan", "Bayern Munich", "Barcelona"], "correct": 0}, {"id": 7, "cat": "Champions League", "level": 1, "q": "Cate echipe joaca in faza grupelor Champions League (format vechi)?", "a": ["32", "16", "24", "48"], "correct": 0}, {"id": 8, "cat": "Superfotbal Romanesc", "level": 1, "q": "Ce culori are echipa nationala a Romaniei?", "a": ["Galben, albastru, rosu", "Alb, negru, rosu", "Rosu, alb, verde", "Albastru, galben, alb"], "correct": 0}, {"id": 9, "cat": "Superfotbal Romanesc", "level": 1, "q": "Care este cel mai titrat club din Romania?", "a": ["Steaua / FCSB", "Dinamo", "Rapid", "CFR Cluj"], "correct": 0}, {"id": 10, "cat": "Superfotbal Romanesc", "level": 1, "q": "Pe ce stadion joaca echipa nationala a Romaniei meciurile de acasa?", "a": ["Arena Nationala", "Giulesti", "Ghencea", "Ion Oblemenco"], "correct": 0}, {"id": 11, "cat": "Cupa Mondiala", "level": 1, "q": "In ce an s-a organizat primul Campionat Mondial de Fotbal?", "a": ["1930", "1920", "1934", "1938"], "correct": 0}, {"id": 12, "cat": "Cupa Mondiala", "level": 1, "q": "Cine a castigat Cupa Mondiala din 2022?", "a": ["Argentina", "Franta", "Brazilia", "Germania"], "correct": 0}, {"id": 13, "cat": "Euro Fotbal", "level": 1, "q": "Cine a castigat UEFA Euro 2020?", "a": ["Italia", "Anglia", "Spania", "Belgia"], "correct": 0}, {"id": 14, "cat": "Euro Fotbal", "level": 1, "q": "In ce tara s-a jucat UEFA Euro 2024?", "a": ["Germania", "Franta", "Spania", "Italia"], "correct": 0}, {"id": 15, "cat": "Sport General", "level": 1, "q": "In ce sport activeaza Novak Djokovic?", "a": ["Tenis", "Squash", "Badminton", "Ping-pong"], "correct": 0}, {"id": 16, "cat": "Sport General", "level": 1, "q": "Cate Grand Slam-uri are un sezon de tenis?", "a": ["4", "3", "5", "6"], "correct": 0}, {"id": 17, "cat": "Sport General", "level": 1, "q": "La ce sport evolueaza LeBron James?", "a": ["Baschet", "Fotbal american", "Baseball", "Hochei"], "correct": 0}, {"id": 18, "cat": "Fotbal Mondial", "level": 1, "q": "Cate minute dureaza un meci de fotbal (timp regulamentar)?", "a": ["90", "80", "100", "120"], "correct": 0}, {"id": 19, "cat": "Champions League", "level": 1, "q": "Cine a castigat Champions League in 2023?", "a": ["Manchester City", "Inter Milan", "Real Madrid", "Bayern Munich"], "correct": 0}, {"id": 20, "cat": "Cupa Mondiala", "level": 1, "q": "In ce tara s-a jucat Cupa Mondiala din 2014?", "a": ["Brazilia", "Argentina", "Africa de Sud", "Rusia"], "correct": 0}, {"id": 21, "cat": "Superfotbal Romanesc", "level": 2, "q": "In ce an a castigat Steaua Bucuresti Cupa Campionilor Europeni?", "a": ["1986", "1984", "1988", "1990"], "correct": 0}, {"id": 22, "cat": "Superfotbal Romanesc", "level": 2, "q": "Cine a antrenat Romania la CM 1994 din SUA?", "a": ["Anghel Iordanescu", "Mircea Lucescu", "Emerich Jenei", "Cornel Dinu"], "correct": 0}, {"id": 23, "cat": "Superfotbal Romanesc", "level": 2, "q": "Impotriva cui a marcat Gica Hagi golul de la 40 de metri la CM 1994?", "a": ["Columbia", "Argentina", "Suedia", "SUA"], "correct": 0}, {"id": 24, "cat": "Superfotbal Romanesc", "level": 2, "q": "CFR Cluj a castigat primul titlu de campioana in ce an?", "a": ["2008", "2006", "2010", "2012"], "correct": 0}, {"id": 25, "cat": "Superfotbal Romanesc", "level": 2, "q": "Cate goluri a marcat Rodion Camataru in sezonul 1986-1987 castigand Gheata de Aur?", "a": ["44", "40", "38", "50"], "correct": 0}, {"id": 26, "cat": "Superfotbal Romanesc", "level": 2, "q": "La ce club strain a jucat Gica Hagi in varul carierei?", "a": ["Galatasaray", "Barcelona", "Real Madrid", "AC Milan"], "correct": 0}, {"id": 27, "cat": "Superfotbal Romanesc", "level": 2, "q": "Ce echipa romaneasca a ajuns in semifinalele Cupei UEFA in 2005-2006?", "a": ["Rapid Bucuresti", "Steaua Bucuresti", "Dinamo", "CFR Cluj"], "correct": 0}, {"id": 28, "cat": "Champions League", "level": 2, "q": "Ajax a castigat ultima oara Champions League in ce an?", "a": ["1995", "1992", "1998", "2001"], "correct": 0}, {"id": 29, "cat": "Champions League", "level": 2, "q": "Care a fost primul club englez castigator al Cupei Campionilor?", "a": ["Manchester United", "Liverpool", "Nottingham Forest", "Aston Villa"], "correct": 0}, {"id": 30, "cat": "Champions League", "level": 2, "q": "In ce oras s-a jucat finala Champions League din 2019?", "a": ["Madrid", "Londra", "Paris", "Milano"], "correct": 0}, {"id": 31, "cat": "Champions League", "level": 2, "q": "Cine a castigat Champions League in 2022 invingand Liverpool in finala?", "a": ["Real Madrid", "Manchester City", "Chelsea", "Atletico Madrid"], "correct": 0}, {"id": 32, "cat": "Cupa Mondiala", "level": 2, "q": "Cine este golgheterul all-time al Cupelor Mondiale?", "a": ["Miroslav Klose", "Ronaldo Brazilia", "Gerd Muller", "Just Fontaine"], "correct": 0}, {"id": 33, "cat": "Cupa Mondiala", "level": 2, "q": "Care echipa africana a ajuns prima oara in semifinalele CM in 2022?", "a": ["Maroc", "Senegal", "Camerun", "Ghana"], "correct": 0}, {"id": 34, "cat": "Cupa Mondiala", "level": 2, "q": "Cate Cupe Mondiale a castigat Brazilia?", "a": ["5", "4", "6", "3"], "correct": 0}, {"id": 35, "cat": "Euro Fotbal", "level": 2, "q": "Cine a castigat UEFA Euro 2024?", "a": ["Spania", "Anglia", "Germania", "Franta"], "correct": 0}, {"id": 36, "cat": "Euro Fotbal", "level": 2, "q": "Danemarca a castigat surprinzator UEFA Euro in ce an?", "a": ["1992", "1988", "1996", "2000"], "correct": 0}, {"id": 37, "cat": "Euro Fotbal", "level": 2, "q": "Grecia a castigat surprinzator UEFA Euro in ce an?", "a": ["2004", "2000", "2008", "2012"], "correct": 0}, {"id": 38, "cat": "Fotbal Mondial", "level": 2, "q": "Cate Baloane de Aur are Lionel Messi?", "a": ["8", "7", "6", "5"], "correct": 0}, {"id": 39, "cat": "Fotbal Mondial", "level": 2, "q": "Cate Baloane de Aur are Cristiano Ronaldo?", "a": ["5", "6", "4", "7"], "correct": 0}, {"id": 40, "cat": "Sport General", "level": 2, "q": "Cate titluri NBA are Michael Jordan cu Chicago Bulls?", "a": ["6", "5", "4", "7"], "correct": 0}, {"id": 41, "cat": "Superfotbal Romanesc", "level": 3, "q": "Cine a aparat toate cele 4 penalty-uri in finala Cupei Campionilor 1986?", "a": ["Helmuth Duckadam", "Silviu Lung", "Ion Moraru", "Stefan Iovan"], "correct": 0}, {"id": 42, "cat": "Superfotbal Romanesc", "level": 3, "q": "Cu ce scor a castigat Romania meciul cu Argentina la CM 1994?", "a": ["3-2", "2-1", "1-0", "4-1"], "correct": 0}, {"id": 43, "cat": "Superfotbal Romanesc", "level": 3, "q": "Impotriva carui adversar a pierdut Romania in sferturile CM 1994?", "a": ["Suedia", "Brazilia", "Italia", "Germania"], "correct": 0}, {"id": 44, "cat": "Superfotbal Romanesc", "level": 3, "q": "Cine a marcat golul victorios pentru Romania contra Angliei la CM 1998?", "a": ["Dan Petrescu", "Gica Hagi", "Viorel Moldovan", "Adrian Ilie"], "correct": 0}, {"id": 45, "cat": "Superfotbal Romanesc", "level": 3, "q": "In ce oras s-a jucat finala Cupei Campionilor 1986 castigata de Steaua?", "a": ["Sevilla", "Barcelona", "Madrid", "Lisabona"], "correct": 0}, {"id": 46, "cat": "Champions League", "level": 3, "q": "Care echipa a castigat primele 5 editii consecutive ale Cupei Campionilor?", "a": ["Real Madrid", "Benfica", "Internazionale", "Ajax"], "correct": 0}, {"id": 47, "cat": "Champions League", "level": 3, "q": "Cine a marcat golul victoriei pentru Liverpool in finala CL 2019 vs Tottenham?", "a": ["Mohamed Salah", "Sadio Mane", "Roberto Firmino", "Divock Origi"], "correct": 0}, {"id": 48, "cat": "Champions League", "level": 3, "q": "Cine a castigat Champions League 2020 cu Bayern marcand de doua ori in finala?", "a": ["Kingsley Coman", "Robert Lewandowski", "Thomas Muller", "Serge Gnabry"], "correct": 0}, {"id": 49, "cat": "Champions League", "level": 3, "q": "In ce an a castigat Nottingham Forest prima Cupa a Campionilor?", "a": ["1979", "1977", "1981", "1983"], "correct": 0}, {"id": 50, "cat": "Champions League", "level": 3, "q": "Cine a castigat Champions League in 2021 cu Chelsea?", "a": ["Thomas Tuchel", "Frank Lampard", "Jose Mourinho", "Antonio Conte"], "correct": 0}, {"id": 51, "cat": "Cupa Mondiala", "level": 3, "q": "Cine a castigat Balonul de Aur la CM 2018?", "a": ["Luka Modric", "Kylian Mbappe", "Antoine Griezmann", "Eden Hazard"], "correct": 0}, {"id": 52, "cat": "Cupa Mondiala", "level": 3, "q": "Ce tara a castigat Cupa Mondiala din 2010 in Africa de Sud?", "a": ["Spania", "Olanda", "Germania", "Uruguay"], "correct": 0}, {"id": 53, "cat": "Cupa Mondiala", "level": 3, "q": "Cate goluri a marcat Miroslav Klose la toate editiile Cupei Mondiale?", "a": ["16", "14", "15", "13"], "correct": 0}, {"id": 54, "cat": "Euro Fotbal", "level": 3, "q": "Cine detine recordul de goluri la turneele finale ale Campionatului European?", "a": ["Cristiano Ronaldo", "Michel Platini", "Zlatan Ibrahimovic", "Ruud van Nistelrooy"], "correct": 0}, {"id": 55, "cat": "Euro Fotbal", "level": 3, "q": "Care a fost primul an in care s-a organizat Campionatul European de Fotbal?", "a": ["1960", "1956", "1964", "1968"], "correct": 0}, {"id": 56, "cat": "Fotbal Mondial", "level": 3, "q": "Care jucator este cunoscut ca El Fenomeno?", "a": ["Ronaldo Brazilia", "Ronaldinho", "Rivaldo", "Romario"], "correct": 0}, {"id": 57, "cat": "Fotbal Mondial", "level": 3, "q": "La ce club a jucat Johan Cruyff cel mai mult din cariera sa?", "a": ["Ajax", "Barcelona", "Feyenoord", "LA Aztecs"], "correct": 0}, {"id": 58, "cat": "Fotbal Mondial", "level": 3, "q": "Ronaldinho a castigat Balonul de Aur in ce an?", "a": ["2005", "2004", "2006", "2003"], "correct": 0}, {"id": 59, "cat": "Sport General", "level": 3, "q": "Cate titluri mondiale de Formula 1 are Lewis Hamilton?", "a": ["7", "6", "5", "8"], "correct": 0}, {"id": 60, "cat": "Sport General", "level": 3, "q": "Cate Grand Slam-uri a castigat Rafael Nadal in total?", "a": ["22", "20", "21", "19"], "correct": 0}, {"id": 61, "cat": "Superfotbal Romanesc", "level": 4, "q": "Cine a antrenat Steaua Bucuresti in finala Cupei Campionilor din 1986?", "a": ["Emerich Jenei", "Anghel Iordanescu", "Mircea Lucescu", "Cornel Dinu"], "correct": 0}, {"id": 62, "cat": "Superfotbal Romanesc", "level": 4, "q": "In ce an a castigat Dinamo Bucuresti ultima oara titlul de campioana?", "a": ["2007", "2004", "2002", "2010"], "correct": 0}, {"id": 63, "cat": "Superfotbal Romanesc", "level": 4, "q": "Cine a marcat ambele goluri ale Romaniei in victoria 2-1 cu Anglia la CM 1998?", "a": ["Viorel Moldovan si Dan Petrescu", "Gica Hagi si Florin Raducioiu", "Adrian Ilie si Gica Hagi", "Dan Petrescu si Viorel Moldovan"], "correct": 0}, {"id": 64, "cat": "Superfotbal Romanesc", "level": 4, "q": "In ce sezon a castigat Steaua titlul de campioana invingand toate echipele din campionat?", "a": ["1985-86", "1987-88", "1988-89", "1984-85"], "correct": 0}, {"id": 65, "cat": "Superfotbal Romanesc", "level": 4, "q": "Cati jucatori romani au evoluat in Serie A in sezonul 1996-97?", "a": ["Aproximativ 20", "5", "10", "30"], "correct": 0}, {"id": 66, "cat": "Champions League", "level": 4, "q": "In ce an s-a jucat prima finala a Champions League in format nou?", "a": ["1993", "1992", "1994", "1995"], "correct": 0}, {"id": 67, "cat": "Champions League", "level": 4, "q": "Cine a marcat singurul gol in finala Champions League 2010 dintre Inter si Bayern?", "a": ["Diego Milito", "Samuel Eto", "Wesley Sneijder", "Esteban Cambiasso"], "correct": 0}, {"id": 68, "cat": "Champions League", "level": 4, "q": "Cine a arbitrat finala Champions League 1999 Manchester United 2-1 Bayern?", "a": ["Pierluigi Collina", "Markus Merk", "Kim Milton Nielsen", "Urs Meier"], "correct": 0}, {"id": 69, "cat": "Cupa Mondiala", "level": 4, "q": "Care este scorul cel mai mare dintr-un meci la Cupa Mondiala?", "a": ["10-1 Ungaria vs El Salvador 1982", "9-0 Iugoslavia vs Zair 1974", "8-0 Germania vs Arabia Saudita 2002", "7-0 Brazilia vs Haiti 1974"], "correct": 0}, {"id": 70, "cat": "Cupa Mondiala", "level": 4, "q": "Just Fontaine detine recordul de goluri intr-o singura editie a CM. Cate goluri?", "a": ["13", "11", "12", "10"], "correct": 0}, {"id": 71, "cat": "Cupa Mondiala", "level": 4, "q": "Cine a marcat golul cu mana lui Dumnezeu la CM 1986 in sfertul vs Anglia?", "a": ["Diego Maradona", "Jorge Valdano", "Carlos Bilardo", "Oscar Ruggeri"], "correct": 0}, {"id": 72, "cat": "Euro Fotbal", "level": 4, "q": "Care echipa a castigat primul Campionat European din 1960?", "a": ["URSS", "Iugoslavia", "Franta", "Cehoslovacia"], "correct": 0}, {"id": 73, "cat": "Euro Fotbal", "level": 4, "q": "Cine a marcat in finala Euro 2004 singurul gol dintre Portugalia si Grecia?", "a": ["Angelos Charisteas", "Theodoros Zagorakis", "Zisis Vryzas", "Nikos Liberopoulos"], "correct": 0}, {"id": 74, "cat": "Fotbal Mondial", "level": 4, "q": "Care a fost primul african castigator al Balonului de Aur?", "a": ["George Weah", "Samuel Etoo", "Didier Drogba", "Yaya Toure"], "correct": 0}, {"id": 75, "cat": "Fotbal Mondial", "level": 4, "q": "Pep Guardiola a castigat Champions League ca antrenor cu cate cluburi diferite?", "a": ["2", "1", "3", "4"], "correct": 0}, {"id": 76, "cat": "Sport General", "level": 4, "q": "Ayrton Senna a decedat la ce cursa de Formula 1?", "a": ["Gran Prix San Marino Imola 1994", "Gran Prix Monaco 1994", "Gran Prix Brazilia 1994", "Gran Prix Japonia 1994"], "correct": 0}, {"id": 77, "cat": "Sport General", "level": 4, "q": "Usain Bolt detine recordul mondial la 100m cu ce timp?", "a": ["9.58 secunde", "9.63 secunde", "9.72 secunde", "9.50 secunde"], "correct": 0}, {"id": 78, "cat": "Sport General", "level": 4, "q": "Cate titluri NBA are Boston Celtics - cea mai titrata echipa?", "a": ["18", "17", "16", "15"], "correct": 0}, {"id": 79, "cat": "Cupa Mondiala", "level": 4, "q": "Franta a castigat Cupa Mondiala pentru prima oara in ce an?", "a": ["1998", "2002", "1996", "2000"], "correct": 0}, {"id": 80, "cat": "Champions League", "level": 4, "q": "Care a fost prima echipa care a castigat Champions League de doua ori consecutiv in era moderna?", "a": ["Real Madrid", "AC Milan", "Ajax", "Bayern Munich"], "correct": 0}, {"id": 81, "cat": "Superfotbal Romanesc", "level": 5, "q": "Cu ce club a jucat Gica Hagi ultima oara ca fotbalist activ?", "a": ["Viitorul Constanta", "Galatasaray", "Brescia", "Rangers"], "correct": 0}, {"id": 82, "cat": "Superfotbal Romanesc", "level": 5, "q": "Pe ce pozitie evolua Dan Petrescu la nationala Romaniei?", "a": ["Fundas dreapta", "Mijlocas central", "Atacant", "Portar"], "correct": 0}, {"id": 83, "cat": "Superfotbal Romanesc", "level": 5, "q": "Cine a marcat golul Romaniei la CM 1990 in meciul 1-0 cu Irlanda in optimi?", "a": ["Rodion Camataru", "Florin Raducioiu", "Gica Hagi", "Ioan Sabau"], "correct": 0}, {"id": 84, "cat": "Superfotbal Romanesc", "level": 5, "q": "In ce an a castigat Rapid Bucuresti ultima oara titlul de campioana in Romania?", "a": ["2003", "2007", "1999", "2005"], "correct": 0}, {"id": 85, "cat": "Superfotbal Romanesc", "level": 5, "q": "Cine a marcat hat-trick-ul pentru Romania in meciul 3-2 cu Columbia la CM 1994?", "a": ["Florin Raducioiu", "Gica Hagi", "Dan Petrescu", "Ilie Dumitrescu"], "correct": 0}, {"id": 86, "cat": "Champions League", "level": 5, "q": "Cine detine recordul de aparitii in meciurile din Champions League?", "a": ["Cristiano Ronaldo", "Iker Casillas", "Xavi Hernandez", "Ryan Giggs"], "correct": 0}, {"id": 87, "cat": "Champions League", "level": 5, "q": "In ce oras s-a jucat finala Champions League 1986 castigata de Steaua Bucuresti?", "a": ["Sevilla", "Barcelona", "Madrid", "Lisabona"], "correct": 0}, {"id": 88, "cat": "Champions League", "level": 5, "q": "Cine a marcat golul de 3-3 pentru Manchester United in minutul 90 in finala CL 1999 vs Bayern?", "a": ["Teddy Sheringham", "Ole Gunnar Solskjaer", "Andy Cole", "Dwight Yorke"], "correct": 0}, {"id": 89, "cat": "Cupa Mondiala", "level": 5, "q": "Cum se numea stadionul pe care s-a jucat finala CM 1950 intre Uruguay si Brazilia?", "a": ["Maracana", "Estadio Nacional", "Azteca", "Centenario"], "correct": 0}, {"id": 90, "cat": "Cupa Mondiala", "level": 5, "q": "Care selectioner a castigat Cupa Mondiala ca jucator si ca antrenor cu aceeasi tara?", "a": ["Didier Deschamps", "Franz Beckenbauer", "Marcello Lippi", "Vicente del Bosque"], "correct": 0}, {"id": 91, "cat": "Euro Fotbal", "level": 5, "q": "Care echipa a castigat primul Campionat European desfasurat in format cu mai multe tari gazda?", "a": ["Italia", "Franta", "Danemarca", "Portugalia"], "correct": 0}, {"id": 92, "cat": "Euro Fotbal", "level": 5, "q": "Cine a marcat golul de 2-1 pentru Franta contra Romaniei la EURO 2016 in minutul 89?", "a": ["Antoine Griezmann", "Dimitri Payet", "Olivier Giroud", "Kingsley Coman"], "correct": 0}, {"id": 93, "cat": "Fotbal Mondial", "level": 5, "q": "Cate goluri a marcat Gerd Muller pentru Germania de Vest la CM 1970?", "a": ["10", "8", "7", "9"], "correct": 0}, {"id": 94, "cat": "Fotbal Mondial", "level": 5, "q": "In ce an a castigat Johan Cruyff primul sau Balon de Aur?", "a": ["1971", "1973", "1974", "1969"], "correct": 0}, {"id": 95, "cat": "Fotbal Mondial", "level": 5, "q": "Cate goluri a marcat Ronaldo Brazilianul la CM 2002 cand a castigat titlul?", "a": ["8", "6", "7", "5"], "correct": 0}, {"id": 96, "cat": "Sport General", "level": 5, "q": "In ce an a primit Nadia Comaneci prima nota 10 perfecta din istoria gimnasticii olimpice?", "a": ["1976", "1972", "1980", "1984"], "correct": 0}, {"id": 97, "cat": "Sport General", "level": 5, "q": "Cate note perfecte de 10 a primit Nadia Comaneci la JO din 1976?", "a": ["7", "5", "9", "3"], "correct": 0}, {"id": 98, "cat": "Cupa Mondiala", "level": 5, "q": "Care este singurul jucator care a castigat Cupa Mondiala de 3 ori?", "a": ["Pele", "Ronaldo Brazilia", "Zidane", "Maradona"], "correct": 0}, {"id": 99, "cat": "Champions League", "level": 5, "q": "Cine a castigat Champions League in 2004 cu Porto la varsta de 41 de ani ca antrenor?", "a": ["Jose Mourinho", "Bobby Robson", "Guus Hiddink", "Louis van Gaal"], "correct": 0}, {"id": 100, "cat": "Fotbal Mondial", "level": 5, "q": "Care este singurul jucator care a jucat si a marcat la 5 editii diferite ale Cupei Mondiale?", "a": ["Antonio Carbajal", "Lothar Matthaus", "Pele", "Diego Maradona"], "correct": 0}];
 
 // ================================================
 //  STATE
@@ -931,6 +695,7 @@ let state = {
   player: '',
   qCount: 10,
   selectedCat: 'all',
+  selectedLevel: 'all',
   questions: [],
   current: 0,
   score: 0,
@@ -1002,6 +767,12 @@ function setCat(cat, btn) {
   btn.classList.add('active');
 }
 
+function setLevel(lv, btn) {
+  state.selectedLevel = lv;
+  document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
 function showLanding() {
   show('screen-landing');
   const saved = localStorage.getItem('ftq_last_player');
@@ -1023,7 +794,11 @@ function startGame() {
   localStorage.setItem('ftq_last_player', nameInput);
 
   // pick random questions filtered by category
-  const filtered = state.selectedCat === 'all' ? QUESTIONS : QUESTIONS.filter(q => q.cat === state.selectedCat);
+  const filtered = QUESTIONS.filter(q => {
+    const catOk = state.selectedCat === 'all' || q.cat === state.selectedCat;
+    const lvOk  = state.selectedLevel === 'all' || q.level === state.selectedLevel;
+    return catOk && lvOk;
+  });
   const pool = shuffle(filtered);
   state.questions = pool.slice(0, Math.min(state.qCount, pool.length));
   // shuffle answers within each question
@@ -1137,6 +912,8 @@ function endGame() {
   const g = grade(state.correctCount, state.questions.length);
   const entry = {
     player: state.player,
+    cat: state.selectedCat,
+    level: state.selectedLevel,
     score: state.score,
     correct: state.correctCount,
     total: state.questions.length,
