@@ -354,15 +354,15 @@
       "id": 26,
       "cat": "Superfotbal Romanesc",
       "level": 2,
-      "q": "La ce club strain a jucat Gica Hagi in varul carierei?",
+      "q": "La ce club a jucat Gica Hagi ultima oara ca fotbalist profesionist?",
       "a": [
         "Galatasaray",
         "Barcelona",
         "Real Madrid",
-        "AC Milan"
+        "Brescia"
       ],
       "correct": 0,
-      "source": "https://en.wikipedia.org/wiki/Gheorghe_Hagi"
+      "source": "https://www.transfermarkt.us/gheorghe-hagi/profil/spieler/7939"
     },
     {
       "id": 27,
@@ -1182,13 +1182,13 @@
       "level": 5,
       "q": "Cine a marcat 2 goluri pentru Romania in victoria 3-1 cu Columbia la CM 1994?",
       "a": [
-        "Ilie Dumitrescu",
         "Florin Raducioiu",
+        "Ilie Dumitrescu",
         "Gica Hagi",
         "Dan Petrescu"
       ],
       "correct": 0,
-      "source": "https://en.wikipedia.org/wiki/1994_FIFA_World_Cup_Group_A#Romania_v_Colombia"
+      "source": "https://www.footballdatabase.eu/en/match/overview/1024983-roumanie-colombie"
     },
     {
       "id": 86,
@@ -1672,13 +1672,13 @@
       "level": 4,
       "q": "Cine a arbitrat finala Cupei Campionilor 1986 dintre Steaua si Barcelona?",
       "a": [
-        "Jan Keizer",
         "Michel Vautrot",
+        "Jan Keizer",
         "Paolo Casarin",
         "Alexis Ponnet"
       ],
       "correct": 0,
-      "source": "https://en.wikipedia.org/wiki/1986_European_Cup_Final"
+      "source": "https://www.uefa.com/uefachampionsleague/history/seasons/1985/"
     },
     {
       "id": 121,
@@ -1754,15 +1754,15 @@
       "id": 126,
       "cat": "Superfotbal Romanesc",
       "level": 5,
-      "q": "Cine a inscris penaltyul de 2-0 pentru Steaua in finala Cupei Campionilor 1986?",
+      "q": "Cine a marcat primul penalty reusit al Steaului in finala Cupei Campionilor 1986?",
       "a": [
         "Marius Lacatus",
+        "Gavril Balint",
         "Victor Piturca",
-        "Rodion Camataru",
         "Tudorel Stoica"
       ],
       "correct": 0,
-      "source": "https://en.wikipedia.org/wiki/1986_European_Cup_Final"
+      "source": "https://footballbh.net/2023/03/14/steaua-bucharest-1986-european-cup/"
     },
     {
       "id": 127,
@@ -2104,15 +2104,15 @@
       "id": 151,
       "cat": "Champions League",
       "level": 4,
-      "q": "Cine a marcat cele 2 goluri pentru Bayern in finala CL 2013 contra Borussia Dortmund?",
+      "q": "Cine a marcat golul victoriei pentru Bayern in finala CL 2013 contra Borussia Dortmund?",
       "a": [
         "Arjen Robben",
-        "Thomas Muller",
         "Mario Mandzukic",
-        "Robert Lewandowski"
+        "Thomas Muller",
+        "Franck Ribery"
       ],
       "correct": 0,
-      "source": "https://en.wikipedia.org/wiki/2012%E2%80%9313_UEFA_Champions_League_Final"
+      "source": "https://www.uefa.com/uefachampionsleague/news/0250-0c50ff9a7f18-7e59ddb15025-1000--robben-ends-bayern-s-run-of-final-misery/"
     },
     {
       "id": 152,
@@ -2400,13 +2400,13 @@
       "level": 2,
       "q": "Cine a castigat Trofeul Lev Yashin (cel mai bun portar) la CM 2022?",
       "a": [
-        "Dominik Livakovic",
         "Emiliano Martinez",
+        "Dominik Livakovic",
         "Yassine Bounou",
-        "Manuel Neuer"
+        "Hugo Lloris"
       ],
       "correct": 0,
-      "source": "https://en.wikipedia.org/wiki/2022_FIFA_World_Cup"
+      "source": "https://www.fifa.com/en/tournaments/mens/worldcup/qatar2022/news/emiliano-martinez-wins-the-best-goalkeeper-award-at-the-2022-fifa-world-cup"
     },
     {
       "id": 173,
@@ -2734,12 +2734,12 @@
       "id": 196,
       "cat": "Euro Fotbal",
       "level": 2,
-      "q": "Spania a castigat 3 titluri europene consecutive in ce ani?",
+      "q": "Spania a castigat 3 titluri majore consecutive: Euro 2008, CM 2010 si Euro 2012. Cine a antrenat-o la toate 3?",
       "a": [
-        "2008, 2010 CM, 2012",
-        "2008, 2012, 2016",
-        "2004, 2008, 2012",
-        "2000, 2004, 2008"
+        "Luis Aragones (2008) si Vicente del Bosque (2010, 2012)",
+        "Vicente del Bosque",
+        "Luis Aragones",
+        "Julen Lopetegui"
       ],
       "correct": 0,
       "source": "https://en.wikipedia.org/wiki/Spain_national_football_team"
@@ -2818,15 +2818,15 @@
       "id": 202,
       "cat": "Euro Fotbal",
       "level": 3,
-      "q": "Cine a marcat golul de 2-0 pentru Spania in finala Euro 2012 contra Italiei?",
+      "q": "Cine a marcat golul de 1-0 pentru Spania in finala Euro 2012 contra Italiei?",
       "a": [
         "David Silva",
-        "Torres",
         "Jordi Alba",
-        "Xavi"
+        "Fernando Torres",
+        "Juan Mata"
       ],
       "correct": 0,
-      "source": "https://en.wikipedia.org/wiki/UEFA_Euro_2012_Final"
+      "source": "https://www.uefa.com/uefaeuro/history/seasons/2012/"
     },
     {
       "id": 203,
@@ -2944,12 +2944,12 @@
       "id": 211,
       "cat": "Euro Fotbal",
       "level": 4,
-      "q": "Romania a jucat la cel putin un Campionat European. La cate editii?",
+      "q": "La cate editii ale Campionatului European a participat Romania?",
       "a": [
+        "6 (1984, 1996, 2000, 2008, 2016, 2024)",
         "5",
-        "3",
         "4",
-        "6"
+        "7"
       ],
       "correct": 0,
       "source": "https://en.wikipedia.org/wiki/Romania_at_UEFA_European_Championships"
@@ -3072,13 +3072,13 @@
       "level": 1,
       "q": "Cine a castigat Balonul de Aur in 2023?",
       "a": [
-        "Erling Haaland",
         "Lionel Messi",
+        "Erling Haaland",
         "Kylian Mbappe",
-        "Vinicius Jr"
+        "Rodri"
       ],
       "correct": 0,
-      "source": "https://en.wikipedia.org/wiki/2023_Ballon_d%27Or"
+      "source": "https://www.espn.com/soccer/story/_/id/38779218/ballon-dor-2023-lionel-messi-beats-erling-haaland-win-award-record-eighth"
     },
     {
       "id": 221,
@@ -3280,12 +3280,12 @@
       "id": 235,
       "cat": "Fotbal Mondial",
       "level": 4,
-      "q": "Cati jucatori a folosit Pep Guardiola la Manchester City in sezonul treble 2018-19?",
+      "q": "In ce an a castigat Manchester City primul sau treble (PL + FA Cup + Champions League)?",
       "a": [
-        "31",
-        "25",
-        "28",
-        "35"
+        "2019",
+        "2018",
+        "2023",
+        "2021"
       ],
       "correct": 0,
       "source": "https://en.wikipedia.org/wiki/2018%E2%80%9319_Manchester_City_F.C._season"
@@ -3546,12 +3546,12 @@
       "id": 254,
       "cat": "Sport General",
       "level": 3,
-      "q": "Cate Olimpiade de vara a castigat Simone Biles medal de aur la gimnastica?",
+      "q": "La cate Jocuri Olimpice a participat Simone Biles castigand medalii de aur?",
       "a": [
-        "4 (2016 si 2024)",
-        "2 (2016)",
-        "6",
-        "3"
+        "2 (2016 si 2024)",
+        "1 (doar 2016)",
+        "3",
+        "4"
       ],
       "correct": 0,
       "source": "https://en.wikipedia.org/wiki/Simone_Biles"
@@ -3954,13 +3954,13 @@
       "level": 4,
       "q": "Cine a castigat Cupa Romaniei in sezonul 2023-24?",
       "a": [
-        "Farul Constanta",
-        "FCSB",
+        "Corvinul Hunedoara",
         "CFR Cluj",
+        "FCSB",
         "Rapid"
       ],
       "correct": 0,
-      "source": "https://en.wikipedia.org/wiki/2023%E2%80%9324_Cupa_Rom%C3%A2niei"
+      "source": "https://en.wikipedia.org/wiki/2024_Cupa_Rom%C3%A2niei_final"
     },
     {
       "id": 284,
