@@ -1488,15 +1488,15 @@
       "id": 107,
       "cat": "Superfotbal Romanesc",
       "level": 2,
-      "q": "In ce an a castigat Romania pentru prima oara Cupa Balcanica?",
+      "q": "Romania este una dintre primele tari care a participat la Cupa Mondiala din 1930. In ce deceniu?",
       "a": [
-        "1929",
-        "1935",
-        "1945",
+        "1930",
+        "1920",
+        "1940",
         "1950"
       ],
       "correct": 0,
-      "source": "https://en.wikipedia.org/wiki/Balkan_Cup_(football)"
+      "source": "https://en.wikipedia.org/wiki/Romania_at_the_1930_FIFA_World_Cup"
     },
     {
       "id": 108,
@@ -2608,12 +2608,12 @@
       "id": 187,
       "cat": "Cupa Mondiala",
       "level": 5,
-      "q": "Norbert Nilo a marcat pentru care echipa in meciul de 5-4 considerat cel mai tare meci din istoria CM (1954)?",
+      "q": "La CM 1954, Austria a castigat cel mai spectaculos meci al turneului 7-5 contra carui adversar?",
       "a": [
-        "Austria",
+        "Elvetia",
         "Ungaria",
-        "Brazilia",
-        "Germania"
+        "Germania de Vest",
+        "Brazilia"
       ],
       "correct": 0,
       "source": "https://en.wikipedia.org/wiki/1954_FIFA_World_Cup"
@@ -2958,15 +2958,15 @@
       "id": 212,
       "cat": "Euro Fotbal",
       "level": 5,
-      "q": "Cine a castigat meciul de la Euro 1996 in care a existat controversa gol-fantoma?",
+      "q": "In care meci din istoria fotbalului s-a produs controversatul gol-fantoma al lui Geoff Hurst?",
       "a": [
-        "Germania vs Anglia 2-1",
-        "Cehia vs Germania",
-        "Anglia vs Germania",
-        "Franta vs Spania"
+        "Anglia vs Germania de Vest, finala CM 1966",
+        "Germania vs Anglia, Euro 1996",
+        "Anglia vs Germania, CM 1990",
+        "Franta vs Anglia, Euro 2004"
       ],
       "correct": 0,
-      "source": "https://en.wikipedia.org/wiki/UEFA_Euro_1996"
+      "source": "https://en.wikipedia.org/wiki/1966_FIFA_World_Cup_Final"
     },
     {
       "id": 213,
@@ -3686,12 +3686,12 @@
       "id": 264,
       "cat": "Sport General",
       "level": 5,
-      "q": "Care este recordul de viteza maxima atins in Formula 1?",
+      "q": "In Formula 1, ce viteza maxima aproximativa pot atinge monoposturile moderne?",
       "a": [
-        "372.6 km/h (Valtteri Bottas, 2016)",
-        "350 km/h",
-        "380 km/h",
-        "400 km/h"
+        "Peste 370 km/h",
+        "Peste 300 km/h",
+        "Peste 400 km/h",
+        "Exact 350 km/h"
       ],
       "correct": 0,
       "source": "https://en.wikipedia.org/wiki/Formula_One"
