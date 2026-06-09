@@ -809,12 +809,26 @@ function startGame() {
   state.player = nameInput;
   localStorage.setItem('ftq_last_player', nameInput);
 
-  // pick random questions filtered by category
+  // pick random questions filtered by category and level
   const filtered = QUESTIONS.filter(q => {
     const catOk = state.selectedCat === 'all' || q.cat === state.selectedCat;
     const lvOk  = state.selectedLevel === 'all' || q.level === state.selectedLevel;
     return catOk && lvOk;
   });
+
+  if (filtered.length === 0) {
+    const inp = document.getElementById('player-name-input');
+    inp.style.borderColor = 'var(--red)';
+    setTimeout(() => inp.style.borderColor = '', 1500);
+    // show feedback to user
+    const btn = document.querySelector('.primary-btn');
+    const orig = btn.textContent;
+    btn.textContent = 'Nu exista intrebari pentru filtrele alese!';
+    btn.style.background = 'var(--red)';
+    setTimeout(() => { btn.textContent = orig; btn.style.background = ''; }, 2000);
+    return;
+  }
+
   const pool = shuffle(filtered);
   state.questions = pool.slice(0, Math.min(state.qCount, pool.length));
   // shuffle answers within each question
