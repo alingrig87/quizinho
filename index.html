@@ -106,6 +106,32 @@ body { background: var(--black); color: var(--text); font-family: 'Inter', sans-
   color: var(--green);
 }
 
+.cat-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.cat-btn {
+  background: var(--card2);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  border-radius: 8px;
+  padding: 10px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.12s;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+.cat-btn:hover { border-color: var(--green); color: var(--text); }
+.cat-btn.active {
+  background: var(--green-glow);
+  border-color: var(--green);
+  color: var(--green);
+}
+
 .primary-btn {
   width: 100%;
   background: var(--green);
@@ -543,7 +569,18 @@ body { background: var(--black); color: var(--text); font-family: 'Inter', sans-
     <div class="field-label">Numele tău</div>
     <input type="text" class="text-input" id="player-name-input" placeholder="Ex: Ionuț" maxlength="24">
 
-    <div class="field-label">Număr întrebări</div>
+    <div class="field-label">Categorie</div>
+    <div class="cat-grid" id="cat-grid">
+      <button class="cat-btn active" onclick="setCat('all', this)">Mixt</button>
+      <button class="cat-btn" onclick="setCat('Superfotbal Românesc', this)">Superfotbal RO</button>
+      <button class="cat-btn" onclick="setCat('Champions League', this)">Champions League</button>
+      <button class="cat-btn" onclick="setCat('Cupa Mondială', this)">Cupa Mondiala</button>
+      <button class="cat-btn" onclick="setCat('Euro Fotbal', this)">Euro Fotbal</button>
+      <button class="cat-btn" onclick="setCat('Fotbal Mondial', this)">Fotbal Mondial</button>
+      <button class="cat-btn" onclick="setCat('Sport General', this)">Sport General</button>
+    </div>
+
+    <div class="field-label">Numar intrebari</div>
     <div class="q-count-row">
       <button class="q-count-btn" onclick="setQCount(5, this)">5</button>
       <button class="q-count-btn active" onclick="setQCount(10, this)">10</button>
@@ -552,7 +589,7 @@ body { background: var(--black); color: var(--text); font-family: 'Inter', sans-
       <button class="q-count-btn" onclick="setQCount(30, this)">30</button>
     </div>
 
-    <button class="primary-btn" onclick="startGame()">JOACĂ</button>
+    <button class="primary-btn" onclick="startGame()">JOACA</button>
     <div class="history-link" onclick="showHistory()">📊 Istoric jocuri</div>
   </div>
 </div>
@@ -893,6 +930,7 @@ const LS_KEY = 'ftq_history_v2';
 let state = {
   player: '',
   qCount: 10,
+  selectedCat: 'all',
   questions: [],
   current: 0,
   score: 0,
@@ -958,6 +996,12 @@ function setQCount(n, btn) {
   btn.classList.add('active');
 }
 
+function setCat(cat, btn) {
+  state.selectedCat = cat;
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
 function showLanding() {
   show('screen-landing');
   const saved = localStorage.getItem('ftq_last_player');
@@ -978,8 +1022,9 @@ function startGame() {
   state.player = nameInput;
   localStorage.setItem('ftq_last_player', nameInput);
 
-  // pick random questions (no repeats)
-  const pool = shuffle(QUESTIONS);
+  // pick random questions filtered by category
+  const filtered = state.selectedCat === 'all' ? QUESTIONS : QUESTIONS.filter(q => q.cat === state.selectedCat);
+  const pool = shuffle(filtered);
   state.questions = pool.slice(0, Math.min(state.qCount, pool.length));
   // shuffle answers within each question
   state.questions = state.questions.map(q => {
