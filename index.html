@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Full Time Quiz 2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap');
+
+  :root {
+    --green: #00C853;
+    --green-dark: #007B2E;
+    --green-glow: rgba(0,200,83,0.18);
+    --black: #0a0a0a;
+    --card: #141414;
+    --card2: #1c1c1c;
+    --border: #2a2a2a;
+    --text: #f0f0f0;
+    --muted: #888;
+    --yellow: #FFD600;
+    --red: #FF1744;
+    --white: #ffffff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── SCOREBOARD ─────────────────────── */
+  #scoreboard {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: rgba(10,10,10,0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 100;
+    gap: 12px;
+  }
+
+  .score-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: var(--green);
+    letter-spacing: 2px;
+    white-space: nowrap;
+  }
+
+  .teams-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    flex: 1;
+    justify-content: center;
+  }
+
+  .team-chip {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+  }
+  .team-chip:hover { border-color: var(--green); }
+  .team-chip .chip-name { color: var(--muted); font-size: 10px; }
+  .team-chip .chip-score { color: var(--green); font-size: 14px; font-weight: 700; }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    white-space: nowrap;
+  }
+
+  /* ── SETUP SCREEN ───────────────────── */
+  #setup-screen {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+  }
+
+  .setup-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 10vw, 100px);
+    color: var(--white);
+    line-height: 1;
+    text-align: center;
+    letter-spacing: 4px;
+  }
+  .setup-title span { color: var(--green); }
+
+  .setup-subtitle {
+    color: var(--muted);
+    font-size: 14px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-top: 6px;
+    margin-bottom: 40px;
+    text-align: center;
+  }
+
+  .setup-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    width: 100%;
+    max-width: 560px;
+  }
+
+  .setup-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .teams-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .team-input-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    transition: border-color 0.15s;
+  }
+  .team-input-row:focus-within { border-color: var(--green); }
+  .team-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    color: var(--green);
+    min-width: 20px;
+  }
+  .team-input-row input {
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--text);
+    font-size: 13px;
+    font-family: 'Inter', sans-serif;
+    width: 100%;
+  }
+
+  .add-team-btn {
+    grid-column: 1/-1;
+    background: none;
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    padding: 10px;
+    color: var(--muted);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .add-team-btn:hover { border-color: var(--green); color: var(--green); }
+
+  .start-btn {
+    width: 100%;
+    background: var(--green);
+    color: var(--black);
+    border: none;
+    border-radius: 10px;
+    padding: 16px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 3px;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-top: 8px;
+  }
+  .start-btn:hover { background: #00e560; transform: translateY(-1px); }
+  .start-btn:active { transform: translateY(0); }
+
+  /* ── MAIN GAME ──────────────────────── */
+  #game-screen {
+    padding-top: 70px;
+    max-width: 900px;
+    margin: 0 auto;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 60px;
+  }
+
+  .runda-header {
+    text-align: center;
+    padding: 40px 0 24px;
+  }
+
+  .runda-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 8px;
+  }
+
+  .runda-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(36px, 8vw, 72px);
+    color: var(--white);
+    letter-spacing: 4px;
+    line-height: 1;
+  }
+
+  .runda-theme {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(18px, 4vw, 28px);
+    color: var(--green);
+    letter-spacing: 3px;
+    margin-top: 4px;
+  }
+
+  /* ── QUESTION CARD ──────────────────── */
+  .q-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 16px;
+    transition: border-color 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .q-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: var(--green);
+    border-radius: 4px 0 0 4px;
+  }
+
+  .q-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .q-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 40px;
+    color: var(--green);
+    line-height: 1;
+    min-width: 44px;
+  }
+
+  .q-text {
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--text);
+    flex: 1;
+  }
+
+  .q-points {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px;
+    letter-spacing: 2px;
+    color: var(--yellow);
+    background: rgba(255,214,0,0.1);
+    border: 1px solid rgba(255,214,0,0.2);
+    border-radius: 20px;
+    padding: 3px 10px;
+    white-space: nowrap;
+    align-self: flex-start;
+  }
+
+  /* scoring row */
+  .scoring-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    border-top: 1px solid var(--border);
+    padding-top: 14px;
+  }
+
+  .scoring-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-right: 4px;
+  }
+
+  .team-score-btn {
+    border: 1px solid var(--border);
+    background: var(--card2);
+    color: var(--text);
+    border-radius: 6px;
+    padding: 5px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .team-score-btn:hover { border-color: var(--green); background: var(--green-glow); }
+  .team-score-btn.awarded {
+    border-color: var(--green);
+    background: var(--green);
+    color: var(--black);
+  }
+
+  .pts-selector {
+    display: flex;
+    gap: 4px;
+  }
+
+  .pts-btn {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    border-radius: 5px;
+    padding: 4px 9px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.12s;
+  }
+  .pts-btn:hover, .pts-btn.active {
+    background: var(--yellow);
+    border-color: var(--yellow);
+    color: var(--black);
+  }
+
+  /* ── RUNDA SEPARATOR ────────────────── */
+  .runda-sep {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 40px 0 8px;
+  }
+  .runda-sep-line { flex: 1; height: 1px; background: var(--border); }
+  .runda-sep-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px;
+    letter-spacing: 3px;
+    color: var(--muted);
+  }
+
+  /* ── FINAL SCREEN ───────────────────── */
+  #final-screen {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    text-align: center;
+  }
+
+  .podium {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 12px;
+    margin: 40px 0;
+    flex-wrap: wrap;
+  }
+
+  .podium-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .podium-name {
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--text);
+  }
+
+  .podium-score {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: var(--green);
+  }
+
+  .podium-bar {
+    width: 80px;
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 8px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    color: var(--black);
+    font-weight: 900;
+  }
+
+  .podium-block:nth-child(1) .podium-bar { background: #C0C0C0; height: 100px; }
+  .podium-block:nth-child(2) .podium-bar { background: var(--yellow); height: 140px; font-size: 32px; }
+  .podium-block:nth-child(3) .podium-bar { background: #CD7F32; height: 70px; }
+
+  .restart-btn {
+    background: none;
+    border: 2px solid var(--green);
+    color: var(--green);
+    border-radius: 10px;
+    padding: 12px 32px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 3px;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-top: 20px;
+  }
+  .restart-btn:hover { background: var(--green); color: var(--black); }
+
+  /* ── UTILS ──────────────────────────── */
+  .hidden { display: none !important; }
+
+  .btn-sm {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    border-radius: 6px;
+    padding: 5px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.12s;
+  }
+  .btn-sm:hover { border-color: var(--green); color: var(--green); }
+
+  /* fireball card */
+  .q-card.fireball { background: rgba(255,23,68,0.06); }
+  .q-card.fireball::before { background: var(--red); }
+  .q-card.fireball .q-num { color: var(--red); }
+
+  /* SUPER question */
+  .q-card.super-q { background: rgba(255,214,0,0.04); }
+  .q-card.super-q::before { background: var(--yellow); }
+  .q-card.super-q .q-num { color: var(--yellow); }
+
+  @media (max-width: 600px) {
+    .teams-grid { grid-template-columns: 1fr; }
+    .q-card { padding: 18px; }
+    .q-num { font-size: 28px; min-width: 32px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- SCOREBOARD -->
+<div id="scoreboard" class="hidden">
+  <div class="score-logo">⚽ FTQ</div>
+  <div class="teams-row" id="teams-row"></div>
+  <div class="header-right">
+    <button class="btn-sm" onclick="showFinal()">Clasament</button>
+  </div>
+</div>
+
+<!-- SETUP SCREEN -->
+<div id="setup-screen">
+  <div class="setup-title">FULL TIME<br><span>QUIZ</span></div>
+  <div class="setup-subtitle">Etapa 4 · 2026</div>
+
+  <div class="setup-card">
+    <div class="setup-label">Echipe participante</div>
+    <div class="teams-grid" id="teams-grid">
+      <div class="team-input-row">
+        <span class="team-num">1</span>
+        <input type="text" placeholder="Echipa 1" value="Echipa 1">
+      </div>
+      <div class="team-input-row">
+        <span class="team-num">2</span>
+        <input type="text" placeholder="Echipa 2" value="Echipa 2">
+      </div>
+      <div class="team-input-row">
+        <span class="team-num">3</span>
+        <input type="text" placeholder="Echipa 3" value="Echipa 3">
+      </div>
+      <div class="team-input-row">
+        <span class="team-num">4</span>
+        <input type="text" placeholder="Echipa 4" value="Echipa 4">
+      </div>
+      <button class="add-team-btn" onclick="addTeam()">+ Adaugă echipă</button>
+    </div>
+    <button class="start-btn" onclick="startGame()">ÎNCEPE QUIZUL</button>
+  </div>
+</div>
+
+<!-- GAME SCREEN -->
+<div id="game-screen" class="hidden"></div>
+
+<!-- FINAL SCREEN -->
+<div id="final-screen" class="hidden">
+  <div class="runda-eyebrow">Clasament final</div>
+  <div class="setup-title">GAME<br><span>OVER</span></div>
+  <div class="podium" id="podium"></div>
+  <button class="restart-btn" onclick="restart()">↺ JOACĂ DIN NOU</button>
+</div>
+
+<script>
+const ROUNDS = [
+  {
+    name: "RUNDA 1",
+    theme: "SUPERFOTBAL",
+    questions: [
+      { num: 1, text: "Universitatea Craiova a câștigat Cupa României ediția 2026. În ce an s-a oferit pentru prima oară acest model al Cupei României?", pts: [10] },
+      { num: 2, text: "Doar 6 jucători din lotul actual al lui „U" Cluj au în palmares cel puțin un titlu de campion. Numiți măcar 3 dintre ei.", pts: [10] },
+      { num: 3, text: "Cum se numește mingea oficială cu care se joacă în acest sezon de Superligă? (Trebuie scrise ambele denumiri)", pts: [10] },
+      { num: 4, text: "Care este echipa din Superligă care a utilizat cei mai mulți fotbaliști în acest sezon?", pts: [10] },
+      { num: 5, text: "Sepsi Sf. Gheorghe a obținut promovarea în Superligă. Spuneți câte prezențe are Sepsi în play-off-ul Superligii?", pts: [10] },
+      { num: 6, text: "Dinamo și CFR Cluj au terminat fără gol meciul jucat sâmbătă. Este al treilea 0-0 al echipei lui Kopić. Care sunt celelalte adversare din Superligă cu care Dinamo a terminat un meci fără goluri?", pts: [10] },
+      { num: 7, text: "Ediția 2005-2006 a campionatului. Rapid a jucat ultima etapă la Jiul Petroșani. Câte cartonașe roșii a luat Rapidul în acel meci?", pts: [10] },
+      { num: 8, text: "Urmăriți faza — Este gol sau nu este gol? (întrebare video)", pts: [10] },
+    ]
+  },
+  {
+    name: "RUNDA 2",
+    theme: "EURO FOTBAL",
+    questions: [
+      { num: 1, text: "Cei mai mulți fani, 127.621, la o finală de Cupa Campionilor au fost pe Hampden Park din Glasgow în 1960. Cine a jucat în acea finală de vis? (10 puncte doar pentru ambele echipe)", pts: [10] },
+      { num: 2, text: "11 fotbaliști au cucerit Champions League și Cupa Mondială în același an. Doar 2 dintre ei sunt francezi. Numiți-i (5 puncte fiecare).", pts: [5, 10] },
+      { num: 3, text: "Care este echipa cu cele mai multe goluri primite în Cupa Campionilor / Champions League? Indiciu: a luat cu 156 de goluri mai multe decât următoarea clasată.", pts: [10] },
+      { num: 4, text: "În 1992, UEFA a rebranduit competiția din „Cupa Campionilor" în „Champions League". Unde s-a jucat prima finală în noul format pe 26 mai 1993?", pts: [10] },
+      { num: 5, text: "În sezonul 2024-25, Champions League a avut 2 golgheteri. Spuneți care au fost aceștia (5 puncte fiecare).", pts: [5, 10] },
+      { num: 6, text: "Unai Emery va juca din nou o finală de Europa League cu Aston Villa. Pe banca cărei echipe a pierdut o finală de Europa League? (5p) Ce antrenor l-a învins în acea finală? (5p)", pts: [5, 10] },
+      { num: 7, text: "George Weah — primul jucător din afara Europei câștigător al Balonului de Aur. Numiți cel puțin 3 echipe din Europa la care a jucat.", pts: [10] },
+      { num: 8, text: "Acum fix 20 de ani, Steaua rata calificarea în finala UEFA în fața lui Middlesbrough. Ce manager, prezent în Premier League în acest sezon, a reușit două goluri în acea finală de la Eindhoven?", pts: [10] },
+    ]
+  },
+  {
+    name: "ÎNTREBAREA FIREBALL",
+    theme: "SPECIAL",
+    fireball: true,
+    questions: [
+      { num: "🔥", text: "FIREBALL — Recunoașteți jucătorii / numiți-i dacă îi știți.", pts: [20, 30, 50], special: "fireball" },
+    ]
+  },
+  {
+    name: "RUNDA 3",
+    theme: "RECUNOAȘTE JUCĂTORUL",
+    questions: [
+      { num: 1, text: "Jucătorul #1 — (imagine pe ecran)", pts: [10] },
+      { num: 2, text: "Jucătorul #2 — (imagine pe ecran)", pts: [10] },
+      { num: 3, text: "Jucătorul #3 — (imagine pe ecran)", pts: [10] },
+      { num: 4, text: "Jucătorul #4 — (imagine pe ecran)", pts: [10] },
+      { num: 5, text: "Jucătorul #5 — (imagine pe ecran)", pts: [10] },
+      { num: 6, text: "Jucătorul #6 — (imagine pe ecran)", pts: [10] },
+      { num: 7, text: "Jucătorul #7 — (imagine pe ecran)", pts: [10] },
+      { num: 8, text: "Jucătorul #8 — (imagine pe ecran)", pts: [10] },
+    ]
+  },
+  {
+    name: "RUNDA 4",
+    theme: "EXTRA FOTBAL",
+    questions: [
+      { num: 1, text: "Ayrton Senna a decedat pe 1 mai 1994. Ce monopost pilota brazilianul în momentul accidentului fatal de la Imola?", pts: [10] },
+      { num: 2, text: "Ronnie O'Sullivan s-a impus în finala Campionatului Mondial de snooker 18-13 cu Trump. Câte titluri mondiale a câștigat? (5p) SUPER (30p): În ce an l-a câștigat pe primul?", pts: [5, 30], special: "super-q" },
+      { num: 3, text: "Pe 8 mai 1970, New York Knicks a câștigat primul titlu NBA. Câte titluri NBA are în toată istoria echipa din New York?", pts: [10] },
+      { num: 4, text: "Pe 12 mai 1979, Chris Evert încheie o serie de 125 de victorii pe zgură. Câte succese la Roland Garros a avut americanca?", pts: [10] },
+      { num: 5, text: "Pe 16 mai 1948, Mihail Botvinnik a cucerit titlul mondial. Despre ce sport este vorba?", pts: [10] },
+      { num: 6, text: "Pe 23 mai 2013, Patrick Roy a semnat primul contract de antrenor în NHL cu Colorado Avalanche. Pe ce poziție s-a remarcat fostul jucător?", pts: [10] },
+      { num: 7, text: "Kimi Antonelli s-a impus în Grand Prix-ul de F1 de la Miami. Spuneți cei doi piloți care au terminat pe locurile 2 și 3.", pts: [10] },
+      { num: 8, text: "Sunt 5 echipe care nu au câștigat titlul NBA, deși au jucat cel puțin două finale. Numiți măcar 3 (10p) sau toate 5 (20p).", pts: [10, 20] },
+    ]
+  },
+  {
+    name: "RUNDA 5",
+    theme: "ISTORIA CUPEI MONDIALE",
+    questions: [
+      { num: 1, text: "În 1970, România a jucat împotriva Braziliei. Cine sunt cei doi marcatori ai tricolorilor? (10 puncte)", pts: [10] },
+      { num: 2, text: "Care este cel mai bun pasator decisiv din istoria Cupei Mondiale? Indiciu: a dat 10 pase de gol în 4 ediții.", pts: [10] },
+      { num: 3, text: "Ghiggia, eroul Uruguay-ului în finala mondială din 1950, a mai jucat pentru o altă echipă națională. Care a fost aceasta?", pts: [10] },
+      { num: 4, text: "Marcelo Bielsa va merge la CM cu Columbia. Care sunt celelalte două echipe naționale pe care „El Loco" le-a antrenat la turnee finale?", pts: [10] },
+      { num: 5, text: "Din ce țară este Ravshan Irmatov, arbitrul cu cele mai multe meciuri oficiate la Cupa Mondială?", pts: [10] },
+      { num: 6, text: "Norvegia a pierdut la toate cele 3 participări (1938, 1994, 1998) împotriva aceleiași echipe. Care este aceasta?", pts: [10] },
+      { num: 7, text: "O singură echipă națională a fost prezentă la TOATE turneele finale ale Cupei Mondiale. Care este aceasta?", pts: [10] },
+      { num: 8, text: "La Mondialul din 2014, portarul SUA a apărat 16 șuturi pe poartă la meciul cu Belgia din optimi. Cine este portarul?", pts: [10] },
+    ]
+  },
+  {
+    name: "RUNDA 6",
+    theme: "NUMEȘTE JUCĂTORUL LIPSĂ",
+    questions: [
+      { num: 1, text: "Franța – România 2-1, EURO 2016 — Cine este jucătorul lipsă?", pts: [10] },
+      { num: 2, text: "Sampdoria – AC Milan 3-2, Serie A 93/94 — Cine este jucătorul lipsă?", pts: [10] },
+      { num: 3, text: "Atletico Madrid – Athletic Bilbao 3-0, Europa League 11/12 — Cine este jucătorul lipsă?", pts: [10] },
+      { num: 4, text: "Italia – Germania de Vest 4-3, World Cup 1970 — Cine este jucătorul lipsă?", pts: [10] },
+      { num: 5, text: "Tottenham – Arsenal 2-2, Premier League 03/04 — Cine este jucătorul lipsă?", pts: [10] },
+      { num: 6, text: "Portugalia – Anglia 3-2, EURO 2000 — Cine este jucătorul lipsă?", pts: [10] },
+      { num: 7, text: "Rapid – Steaua 1-1, Cupa UEFA 05/06 — Cine este jucătorul lipsă?", pts: [10] },
+      { num: 8, text: "Bayern Munich – Wolfsburg 5-1, Bundesliga 15/16 — Cine este jucătorul lipsă?", pts: [10] },
+    ]
+  },
+];
+
+let teams = [];
+// awarded[roundIdx][qIdx] = { teamIdx, pts }[]
+let awarded = [];
+
+function buildAwarded() {
+  awarded = ROUNDS.map(r => r.questions.map(() => []));
+}
+
+function getTeamTotal(tIdx) {
+  let s = 0;
+  for (let r = 0; r < awarded.length; r++)
+    for (let q = 0; q < awarded[r].length; q++)
+      for (let a of awarded[r][q])
+        if (a.teamIdx === tIdx) s += a.pts;
+  return s;
+}
+
+// ── SETUP ──────────────────────────────
+function addTeam() {
+  const grid = document.getElementById('teams-grid');
+  const addBtn = grid.querySelector('.add-team-btn');
+  const count = grid.querySelectorAll('.team-input-row').length + 1;
+  const row = document.createElement('div');
+  row.className = 'team-input-row';
+  row.innerHTML = `<span class="team-num">${count}</span><input type="text" placeholder="Echipa ${count}" value="Echipa ${count}">`;
+  grid.insertBefore(row, addBtn);
+}
+
+function startGame() {
+  const inputs = document.querySelectorAll('#teams-grid input');
+  teams = Array.from(inputs).map(i => i.value.trim() || i.placeholder);
+  buildAwarded();
+  document.getElementById('setup-screen').classList.add('hidden');
+  document.getElementById('scoreboard').classList.remove('hidden');
+  document.getElementById('game-screen').classList.remove('hidden');
+  renderGame();
+  renderScoreboard();
+}
+
+// ── RENDER GAME ────────────────────────
+function renderGame() {
+  const gs = document.getElementById('game-screen');
+  gs.innerHTML = '';
+
+  ROUNDS.forEach((round, rIdx) => {
+    // Round header
+    const hdr = document.createElement('div');
+    hdr.className = 'runda-header';
+    hdr.innerHTML = `
+      <div class="runda-eyebrow">Rundă ${rIdx + 1} din ${ROUNDS.length}</div>
+      <div class="runda-title">${round.name}</div>
+      <div class="runda-theme">${round.theme}</div>
+    `;
+    gs.appendChild(hdr);
+
+    round.questions.forEach((q, qIdx) => {
+      const card = document.createElement('div');
+      card.className = 'q-card' + (q.special === 'fireball' ? ' fireball' : q.special === 'super-q' ? ' super-q' : '');
+      card.id = `q-${rIdx}-${qIdx}`;
+
+      const ptsDefault = q.pts[q.pts.length - 1];
+
+      card.innerHTML = `
+        <div class="q-header">
+          <div class="q-num">${q.num}</div>
+          <div class="q-text">${q.text}</div>
+          <div class="q-points">${ptsDefault}p</div>
+        </div>
+        <div class="scoring-row">
+          <span class="scoring-label">Puncte:</span>
+          <div class="pts-selector" id="pts-${rIdx}-${qIdx}">
+            ${q.pts.map((p, pi) => `<button class="pts-btn ${pi === q.pts.length - 1 ? 'active' : ''}" onclick="selectPts(${rIdx},${qIdx},${p},this)">${p}p</button>`).join('')}
+          </div>
+          <span class="scoring-label" style="margin-left:8px;">→</span>
+          ${teams.map((t, tIdx) => `
+            <button class="team-score-btn" id="tsb-${rIdx}-${qIdx}-${tIdx}" onclick="toggleAward(${rIdx},${qIdx},${tIdx})">
+              ${t}
+            </button>
+          `).join('')}
+        </div>
+      `;
+      gs.appendChild(card);
+    });
+
+    // separator between rounds
+    if (rIdx < ROUNDS.length - 1) {
+      const sep = document.createElement('div');
+      sep.className = 'runda-sep';
+      sep.innerHTML = `<div class="runda-sep-line"></div><div class="runda-sep-text">──────</div><div class="runda-sep-line"></div>`;
+      gs.appendChild(sep);
+    }
+  });
+}
+
+// selected pts per question
+const selectedPts = {};
+
+function selectPts(rIdx, qIdx, pts, btn) {
+  selectedPts[`${rIdx}-${qIdx}`] = pts;
+  const container = document.getElementById(`pts-${rIdx}-${qIdx}`);
+  container.querySelectorAll('.pts-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function getSelectedPts(rIdx, qIdx) {
+  const key = `${rIdx}-${qIdx}`;
+  if (selectedPts[key] !== undefined) return selectedPts[key];
+  const q = ROUNDS[rIdx].questions[qIdx];
+  return q.pts[q.pts.length - 1];
+}
+
+function toggleAward(rIdx, qIdx, tIdx) {
+  const pts = getSelectedPts(rIdx, qIdx);
+  const list = awarded[rIdx][qIdx];
+  const existing = list.findIndex(a => a.teamIdx === tIdx && a.pts === pts);
+
+  if (existing >= 0) {
+    list.splice(existing, 1);
+  } else {
+    // remove any prior award of same pts for same team (replace)
+    const priorIdx = list.findIndex(a => a.teamIdx === tIdx);
+    if (priorIdx >= 0) list.splice(priorIdx, 1);
+    list.push({ teamIdx: tIdx, pts });
+  }
+
+  // update button UI
+  const btn = document.getElementById(`tsb-${rIdx}-${qIdx}-${tIdx}`);
+  const isAwarded = list.some(a => a.teamIdx === tIdx);
+  if (isAwarded) {
+    const awardedPts = list.find(a => a.teamIdx === tIdx).pts;
+    btn.classList.add('awarded');
+    btn.innerHTML = `${teams[tIdx]} <span style="font-size:10px">+${awardedPts}p</span>`;
+  } else {
+    btn.classList.remove('awarded');
+    btn.innerHTML = teams[tIdx];
+  }
+
+  renderScoreboard();
+}
+
+// ── SCOREBOARD ─────────────────────────
+function renderScoreboard() {
+  const row = document.getElementById('teams-row');
+  row.innerHTML = teams.map((t, tIdx) => `
+    <div class="team-chip">
+      <span class="chip-name">${t}</span>
+      <span class="chip-score">${getTeamTotal(tIdx)}</span>
+    </div>
+  `).join('');
+}
+
+// ── FINAL ───────────────────────────────
+function showFinal() {
+  document.getElementById('game-screen').classList.add('hidden');
+  document.getElementById('final-screen').classList.remove('hidden');
+
+  const sorted = teams.map((t, i) => ({ name: t, score: getTeamTotal(i) }))
+    .sort((a, b) => b.score - a.score);
+
+  const podium = document.getElementById('podium');
+  // reorder: 2nd, 1st, 3rd for visual podium
+  const display = sorted.length >= 3
+    ? [sorted[1], sorted[0], sorted[2]]
+    : sorted.length === 2
+    ? [sorted[1], sorted[0]]
+    : [sorted[0]];
+
+  const medals = sorted.length >= 3 ? ['🥈', '🥇', '🥉'] : ['🥈', '🥇'];
+
+  podium.innerHTML = display.map((t, i) => `
+    <div class="podium-block">
+      <div class="podium-name">${t.name}</div>
+      <div class="podium-score">${t.score}p</div>
+      <div class="podium-bar">${medals[i] || (i + 1)}</div>
+    </div>
+  `).join('');
+
+  // full leaderboard
+  const lb = document.createElement('div');
+  lb.style.cssText = 'margin-top:24px;width:100%;max-width:400px;';
+  lb.innerHTML = sorted.map((t, i) => `
+    <div style="display:flex;justify-content:space-between;padding:10px 16px;border-bottom:1px solid #1c1c1c;font-size:14px;">
+      <span style="color:${i===0?'var(--yellow)':'var(--text)'};">${i+1}. ${t.name}</span>
+      <span style="font-family:'Bebas Neue';font-size:16px;color:var(--green);">${t.score}p</span>
+    </div>
+  `).join('');
+  document.getElementById('final-screen').appendChild(lb);
+}
+
+function restart() {
+  location.reload();
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Full Time Quiz</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --green: #00C853;
+  --green-dark: #007B2E;
+  --green-glow: rgba(0,200,83,0.12);
+  --black: #080808;
+  --card: #111111;
+  --card2: #1a1a1a;
+  --border: #252525;
+  --text: #efefef;
+  --muted: #777;
+  --yellow: #FFD600;
+  --red: #FF1744;
+  --blue: #2979FF;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--black); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; overflow-x: hidden; }
+
+/* ─── SCREENS ──────────────────────────────── */
+.screen { display: none; min-height: 100vh; }
+.screen.active { display: flex; flex-direction: column; }
+
+/* ─── LANDING ──────────────────────────────── */
+#screen-landing {
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+}
+.logo-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(64px, 15vw, 130px);
+  line-height: 0.9;
+  color: #fff;
+  letter-spacing: 4px;
+}
+.logo-title span { color: var(--green); }
+.logo-sub {
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 10px 0 44px;
+}
+.name-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 36px 32px;
+  width: 100%;
+  max-width: 440px;
+}
+.field-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 10px;
+  text-align: left;
+}
+.text-input {
+  width: 100%;
+  background: var(--card2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  color: var(--text);
+  font-size: 16px;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  transition: border-color 0.15s;
+  margin-bottom: 20px;
+}
+.text-input:focus { border-color: var(--green); }
+
+.q-count-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+.q-count-btn {
+  flex: 1;
+  background: var(--card2);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  border-radius: 8px;
+  padding: 10px 4px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.q-count-btn.active {
+  background: var(--green-glow);
+  border-color: var(--green);
+  color: var(--green);
+}
+
+.primary-btn {
+  width: 100%;
+  background: var(--green);
+  color: #000;
+  border: none;
+  border-radius: 12px;
+  padding: 16px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 3px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.primary-btn:hover { background: #00e560; transform: translateY(-1px); }
+.primary-btn:active { transform: none; }
+
+.history-link {
+  margin-top: 18px;
+  font-size: 12px;
+  color: var(--muted);
+  cursor: pointer;
+  letter-spacing: 1px;
+}
+.history-link:hover { color: var(--green); }
+
+/* ─── GAME SCREEN ──────────────────────────── */
+#screen-game {
+  align-items: center;
+  padding: 0 16px 60px;
+}
+
+.game-topbar {
+  width: 100%;
+  max-width: 720px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 0 0;
+  margin-bottom: 24px;
+}
+.topbar-player {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 1px;
+}
+.topbar-player span { color: var(--green); }
+
+.progress-wrap {
+  flex: 1;
+  margin: 0 16px;
+  height: 4px;
+  background: var(--card2);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.progress-bar {
+  height: 100%;
+  background: var(--green);
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+
+.topbar-score {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px;
+  color: var(--yellow);
+  letter-spacing: 1px;
+}
+
+/* question card */
+.q-wrap {
+  width: 100%;
+  max-width: 720px;
+}
+
+.q-category {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 10px;
+}
+
+.q-counter {
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 6px;
+  letter-spacing: 1px;
+}
+
+.q-text-main {
+  font-size: clamp(16px, 3vw, 21px);
+  font-weight: 700;
+  line-height: 1.5;
+  color: #fff;
+  margin-bottom: 28px;
+  min-height: 70px;
+}
+
+.choices-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.choice-btn {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 16px;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.choice-btn:hover:not(:disabled) {
+  border-color: var(--green);
+  background: var(--green-glow);
+}
+.choice-btn .choice-letter {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  color: var(--muted);
+  min-width: 18px;
+  transition: color 0.15s;
+}
+.choice-btn:hover:not(:disabled) .choice-letter { color: var(--green); }
+
+.choice-btn.correct {
+  border-color: var(--green);
+  background: rgba(0,200,83,0.15);
+}
+.choice-btn.correct .choice-letter { color: var(--green); }
+
+.choice-btn.wrong {
+  border-color: var(--red);
+  background: rgba(255,23,68,0.1);
+}
+.choice-btn.wrong .choice-letter { color: var(--red); }
+
+.choice-btn.reveal-correct {
+  border-color: var(--green);
+  background: rgba(0,200,83,0.08);
+  opacity: 0.7;
+}
+
+.choice-btn:disabled { cursor: default; }
+
+/* feedback bar */
+.feedback-bar {
+  border-radius: 10px;
+  padding: 14px 18px;
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 16px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: all 0.25s;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.feedback-bar.show { opacity: 1; transform: none; }
+.feedback-bar.correct-fb { background: rgba(0,200,83,0.15); border: 1px solid var(--green); color: var(--green); }
+.feedback-bar.wrong-fb { background: rgba(255,23,68,0.1); border: 1px solid var(--red); color: #ff6b6b; }
+.feedback-bar .fb-pts { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: var(--yellow); }
+
+.next-btn {
+  width: 100%;
+  background: var(--card2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 14px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.15s;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s, background 0.15s;
+}
+.next-btn.show { opacity: 1; pointer-events: all; }
+.next-btn:hover { background: var(--card); border-color: var(--green); color: var(--green); }
+
+/* ─── RESULT SCREEN ────────────────────────── */
+#screen-result {
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+}
+.result-score-big {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(80px, 20vw, 160px);
+  color: var(--green);
+  line-height: 1;
+}
+.result-label {
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.result-name {
+  font-size: 22px;
+  font-weight: 800;
+  color: #fff;
+  margin: 12px 0 4px;
+}
+.result-correct {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 40px;
+}
+.result-correct span { color: var(--text); font-weight: 700; }
+
+.result-btns {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 440px;
+  width: 100%;
+}
+.result-btns button {
+  flex: 1;
+  min-width: 140px;
+  border-radius: 10px;
+  padding: 13px 16px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 16px;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.15s;
+  border: 1.5px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+}
+.result-btns button:hover { border-color: var(--green); color: var(--green); }
+.result-btns .btn-play-again {
+  background: var(--green);
+  border-color: var(--green);
+  color: #000;
+}
+.result-btns .btn-play-again:hover { background: #00e560; }
+
+/* grade badge */
+.grade-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 30px;
+  margin-bottom: 16px;
+}
+.grade-S { background: rgba(255,214,0,0.15); border: 2px solid var(--yellow); color: var(--yellow); }
+.grade-A { background: rgba(0,200,83,0.12); border: 2px solid var(--green); color: var(--green); }
+.grade-B { background: rgba(41,121,255,0.12); border: 2px solid var(--blue); color: var(--blue); }
+.grade-C { background: rgba(255,23,68,0.1); border: 2px solid var(--red); color: #ff6b6b; }
+
+/* ─── HISTORY SCREEN ───────────────────────── */
+#screen-history {
+  align-items: center;
+  padding: 32px 20px 60px;
+}
+.history-header {
+  width: 100%;
+  max-width: 640px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+.history-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 36px;
+  letter-spacing: 3px;
+  color: #fff;
+}
+.back-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  border-radius: 8px;
+  padding: 7px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.back-btn:hover { border-color: var(--green); color: var(--green); }
+
+.player-filter {
+  width: 100%;
+  max-width: 640px;
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.player-filter-btn {
+  background: var(--card2);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  border-radius: 20px;
+  padding: 5px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.12s;
+  white-space: nowrap;
+}
+.player-filter-btn.active {
+  background: var(--green-glow);
+  border-color: var(--green);
+  color: var(--green);
+}
+
+.history-list {
+  width: 100%;
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.history-item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: border-color 0.15s;
+}
+.history-item:hover { border-color: #333; }
+
+.hi-grade {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  width: 36px;
+  text-align: center;
+}
+.hi-grade.grade-S { color: var(--yellow); }
+.hi-grade.grade-A { color: var(--green); }
+.hi-grade.grade-B { color: var(--blue); }
+.hi-grade.grade-C { color: var(--red); }
+
+.hi-info { flex: 1; }
+.hi-player { font-size: 13px; font-weight: 700; color: #fff; }
+.hi-meta { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+.hi-score {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 26px;
+  color: var(--green);
+}
+.hi-pts-label { font-size: 10px; color: var(--muted); text-align: right; letter-spacing: 1px; }
+
+.empty-state {
+  color: var(--muted);
+  font-size: 14px;
+  text-align: center;
+  padding: 60px 0;
+}
+
+/* stats bar */
+.stats-bar {
+  width: 100%;
+  max-width: 640px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 24px;
+}
+.stat-cell {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+  text-align: center;
+}
+.stat-val {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
+  color: var(--green);
+}
+.stat-lbl {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+@media (max-width: 520px) {
+  .choices-grid { grid-template-columns: 1fr; }
+  .q-text-main { font-size: 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════ LANDING ════ -->
+<div id="screen-landing" class="screen active">
+  <div class="logo-title">FULL<br><span>TIME</span><br>QUIZ</div>
+  <div class="logo-sub">Football Trivia · Solo Mode</div>
+
+  <div class="name-card">
+    <div class="field-label">Numele tău</div>
+    <input type="text" class="text-input" id="player-name-input" placeholder="Ex: Ionuț" maxlength="24">
+
+    <div class="field-label">Număr întrebări</div>
+    <div class="q-count-row">
+      <button class="q-count-btn" onclick="setQCount(5, this)">5</button>
+      <button class="q-count-btn active" onclick="setQCount(10, this)">10</button>
+      <button class="q-count-btn" onclick="setQCount(15, this)">15</button>
+      <button class="q-count-btn" onclick="setQCount(20, this)">20</button>
+      <button class="q-count-btn" onclick="setQCount(30, this)">30</button>
+    </div>
+
+    <button class="primary-btn" onclick="startGame()">JOACĂ</button>
+    <div class="history-link" onclick="showHistory()">📊 Istoric jocuri</div>
+  </div>
+</div>
+
+<!-- ════ GAME ════ -->
+<div id="screen-game" class="screen">
+  <div class="game-topbar">
+    <div class="topbar-player">Jucător: <span id="hud-player">—</span></div>
+    <div class="progress-wrap"><div class="progress-bar" id="progress-bar"></div></div>
+    <div class="topbar-score" id="hud-score">0 PTS</div>
+  </div>
+
+  <div class="q-wrap">
+    <div class="q-category" id="q-category"></div>
+    <div class="q-counter" id="q-counter"></div>
+    <div class="q-text-main" id="q-text"></div>
+    <div class="choices-grid" id="choices-grid"></div>
+    <div class="feedback-bar" id="feedback-bar">
+      <span id="feedback-text"></span>
+      <span class="fb-pts" id="feedback-pts"></span>
+    </div>
+    <button class="next-btn" id="next-btn" onclick="nextQuestion()">URMĂTOAREA →</button>
+  </div>
+</div>
+
+<!-- ════ RESULT ════ -->
+<div id="screen-result" class="screen">
+  <div class="result-label">Joc terminat</div>
+  <div class="grade-badge" id="result-grade-badge"></div>
+  <div class="result-score-big" id="result-score-big"></div>
+  <div class="result-label">puncte</div>
+  <div class="result-name" id="result-name"></div>
+  <div class="result-correct" id="result-correct"></div>
+  <div class="result-btns">
+    <button class="btn-play-again" onclick="playAgain()">JOACĂ DIN NOU</button>
+    <button onclick="showHistory()">ISTORIC</button>
+    <button onclick="showLanding()">MENIU</button>
+  </div>
+</div>
+
+<!-- ════ HISTORY ════ -->
+<div id="screen-history" class="screen">
+  <div class="history-header">
+    <div class="history-title">ISTORIC JOCURI</div>
+    <button class="back-btn" onclick="showLanding()">← ÎNAPOI</button>
+  </div>
+  <div class="stats-bar" id="stats-bar"></div>
+  <div class="player-filter" id="player-filter"></div>
+  <div class="history-list" id="history-list"></div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════
+//  QUESTION BANK  — categorii: Superfotbal RO, Champions League,
+//  Cupa Mondială, Sport General, Euro Fotbal, Fotbal Mondial
+// ══════════════════════════════════════════════════════════
+const QUESTIONS = [
+
+  // ── SUPERFOTBAL ROMÂNESC ───────────────────────────────
+  { cat: "Superfotbal Românesc", pts: 10,
+    q: "Care club românesc a câștigat cele mai multe titluri de campioană din istoria fotbalului românesc?",
+    a: ["Steaua București", "Dinamo", "Rapid", "CFR Cluj"], correct: 0 },
+
+  { cat: "Superfotbal Românesc", pts: 10,
+    q: "În ce an a câștigat Steaua București Cupa Campionilor Europeni?",
+    a: ["1986", "1984", "1989", "1990"], correct: 0 },
+
+  { cat: "Superfotbal Românesc", pts: 10,
+    q: "Cine a marcat golul decisiv la loviturile de departajare în finala Cupei Campionilor 1986?",
+    a: ["Helmuth Duckadam", "Marius Lăcătuș", "Rodion Cămătaru", "Gică Hagi"], correct: 0 },
+
+  { cat: "Superfotbal Românesc", pts: 10,
+    q: "Câte goluri a marcat Rodion Cămătaru în sezonul 1986-1987, câștigând Gheata de Aur?",
+    a: ["44", "40", "38", "50"], correct: 0 },
+
+  { cat: "Superfotbal Românesc", pts: 10,
+    q: "Care stadion din România are cea mai mare capacitate?",
+    a: ["Arena Națională", "Giulești", "Dinamo", "Ion Oblemenco"], correct: 0 },
+
+  { cat: "Superfotbal Românesc", pts: 10,
+    q: "Gică Hagi a evoluat la care dintre aceste cluburi românești?",
+    a: ["Viitorul Constanța", "Petrolul Ploiești", "Oțelul Galați", "Universitatea Cluj"], correct: 0 },
+
+  { cat: "Superfotbal Românesc", pts: 10,
+    q: "CFR Cluj a câștigat primul titlu de campioană în ce an?",
+    a: ["2008", "2010", "2006", "2012"], correct: 0 },
+
+  { cat: "Superfotbal Românesc", pts: 10,
+    q: "Care echipă românească a ajuns în semifinalele Cupei UEFA în sezonul 2005-2006?",
+    a: ["Rapid București", "Steaua București", "Dinamo", "CFR Cluj"], correct: 0 },
+
+  { cat: "Superfotbal Românesc", pts: 10,
+    q: "Câți jucători români au evoluat la Campionatul Mondial din 1994, unde România a ajuns în sferturi?",
+    a: ["22", "18", "20", "25"], correct: 0 },
+
+  { cat: "Superfotbal Românesc", pts: 10,
+    q: "Cine a antrenat România la Cupa Mondială din 1994 din SUA?",
+    a: ["Anghel Iordănescu", "Mircea Lucescu", "Emerich Jenei", "Cornel Dinu"], correct: 0 },
+
+  { cat: "Superfotbal Românesc", pts: 10,
+    q: "Împotriva cărui adversar a marcat Gică Hagi un gol fabulos de la 40 de metri la CM 1994?",
+    a: ["Columbia", "Argentina", "Suedia", "SUA"], correct: 0 },
+
+  { cat: "Superfotbal Românesc", pts: 10,
+    q: "Cum se numește baza de pregătire a echipei naționale a României?",
+    a: ["Mogoșoaia", "Snagov", "Buftea", "Otopeni"], correct: 0 },
+
+  // ── CHAMPIONS LEAGUE ─────────────────────────────────
+  { cat: "Champions League", pts: 10,
+    q: "Cine deține recordul de goluri marcate în Champions League?",
+    a: ["Cristiano Ronaldo", "Lionel Messi", "Raúl", "Robert Lewandowski"], correct: 0 },
+
+  { cat: "Champions League", pts: 10,
+    q: "Care club a câștigat cele mai multe titluri Champions League / Cupa Campionilor?",
+    a: ["Real Madrid", "AC Milan", "Bayern Munich", "Barcelona"], correct: 0 },
+
+  { cat: "Champions League", pts: 10,
+    q: "Unde s-a jucat finala Champions League din 2023, câștigată de Manchester City?",
+    a: ["Istanbul", "Paris", "Madrid", "Lisabona"], correct: 0 },
+
+  { cat: "Champions League", pts: 10,
+    q: "Cine a câștigat Champions League în 2022, învingând Liverpool în finală?",
+    a: ["Real Madrid", "Manchester City", "Chelsea", "Atletico Madrid"], correct: 0 },
+
+  { cat: "Champions League", pts: 10,
+    q: "Care echipă a câștigat Champions League de 5 ori consecutiv (1956-1960)?",
+    a: ["Real Madrid", "Benfica", "Internazionale", "Ajax"], correct: 0 },
+
+  { cat: "Champions League", pts: 10,
+    q: "Câte echipe participă în actuala fază de grupe a Champions League (format nou din 2024)?",
+    a: ["36", "32", "24", "48"], correct: 0 },
+
+  { cat: "Champions League", pts: 10,
+    q: "Cine a marcat golul victoriei pentru Liverpool în finala Champions League 2019 (vs Tottenham)?",
+    a: ["Mohamed Salah", "Sadio Mané", "Roberto Firmino", "Divock Origi"], correct: 0 },
+
+  { cat: "Champions League", pts: 10,
+    q: "Ce țară a furnizat cei mai mulți câștigători diferiți ai Champions League?",
+    a: ["Spania", "Anglia", "Italia", "Germania"], correct: 0 },
+
+  { cat: "Champions League", pts: 10,
+    q: "Ajax a câștigat ultima oară Champions League în ce an?",
+    a: ["1995", "1992", "1998", "2000"], correct: 0 },
+
+  { cat: "Champions League", pts: 10,
+    q: "Care a fost primul club englez câștigător al Cupei Campionilor?",
+    a: ["Manchester United", "Liverpool", "Nottingham Forest", "Aston Villa"], correct: 0 },
+
+  { cat: "Champions League", pts: 10,
+    q: "Cine a câștigat Champions League 2020 cu Bayern Munich, marcând de două ori în finală?",
+    a: ["Kingsley Coman", "Robert Lewandowski", "Thomas Müller", "Serge Gnabry"], correct: 0 },
+
+  // ── CUPA MONDIALĂ ────────────────────────────────────
+  { cat: "Cupa Mondială", pts: 10,
+    q: "Care țară a câștigat cele mai multe Cupe Mondiale?",
+    a: ["Brazilia", "Germania", "Italia", "Argentina"], correct: 0 },
+
+  { cat: "Cupa Mondială", pts: 10,
+    q: "Unde s-a organizat primul Campionat Mondial de Fotbal din 1930?",
+    a: ["Uruguay", "Brazilia", "Argentina", "Chile"], correct: 0 },
+
+  { cat: "Cupa Mondială", pts: 10,
+    q: "Cine a câștigat Cupa Mondială din 2022 din Qatar?",
+    a: ["Argentina", "Franța", "Maroc", "Croația"], correct: 0 },
+
+  { cat: "Cupa Mondială", pts: 10,
+    q: "Cine este cel mai bun marcator din istoria Cupei Mondiale (toate edițiile)?",
+    a: ["Miroslav Klose", "Ronaldo (Brazilia)", "Gerd Müller", "Just Fontaine"], correct: 0 },
+
+  { cat: "Cupa Mondială", pts: 10,
+    q: "La Cupa Mondială 2018, cine a câștigat titlul de cel mai bun jucător al turneului?",
+    a: ["Luka Modrić", "Kylian Mbappé", "Antoine Griezmann", "Eden Hazard"], correct: 0 },
+
+  { cat: "Cupa Mondială", pts: 10,
+    q: "Câte Cupe Mondiale a câștigat Pelé?",
+    a: ["3", "2", "1", "4"], correct: 0 },
+
+  { cat: "Cupa Mondială", pts: 10,
+    q: "Cine a marcat golul cu mâna lui Dumnezeu la CM 1986?",
+    a: ["Diego Maradona", "Jorge Valdano", "Carlos Bilardo", "Oscar Ruggeri"], correct: 0 },
+
+  { cat: "Cupa Mondială", pts: 10,
+    q: "Franța a câștigat Cupa Mondială pentru prima oară în ce an?",
+    a: ["1998", "2002", "2006", "2010"], correct: 0 },
+
+  { cat: "Cupa Mondială", pts: 10,
+    q: "Care echipă a câștigat Cupa Mondială din 2010 din Africa de Sud?",
+    a: ["Spania", "Olanda", "Germania", "Uruguay"], correct: 0 },
+
+  { cat: "Cupa Mondială", pts: 10,
+    q: "Câte goluri a marcat Miroslav Klose în turneele finale ale Cupei Mondiale?",
+    a: ["16", "14", "15", "13"], correct: 0 },
+
+  { cat: "Cupa Mondială", pts: 10,
+    q: "Italia a câștigat a patra sa Cupă Mondială în ce an?",
+    a: ["2006", "2002", "1998", "2010"], correct: 0 },
+
+  { cat: "Cupa Mondială", pts: 10,
+    q: "Care echipă africană a ajuns prima dată în semifinalele Cupei Mondiale în 2022?",
+    a: ["Maroc", "Senegal", "Camerun", "Ghana"], correct: 0 },
+
+  // ── SPORT GENERAL ────────────────────────────────────
+  { cat: "Sport General", pts: 10,
+    q: "Câte titluri Grand Slam a câștigat Rafael Nadal în total?",
+    a: ["22", "20", "21", "23"], correct: 0 },
+
+  { cat: "Sport General", pts: 10,
+    q: "La ce echipă NBA joacă LeBron James momentan (2024-2025)?",
+    a: ["Los Angeles Lakers", "Miami Heat", "Cleveland Cavaliers", "Golden State Warriors"], correct: 0 },
+
+  { cat: "Sport General", pts: 10,
+    q: "Câte titluri mondiale Formula 1 a câștigat Michael Schumacher?",
+    a: ["7", "5", "6", "4"], correct: 0 },
+
+  { cat: "Sport General", pts: 10,
+    q: "Usain Bolt deține recordul mondial la 100m. Care este acesta?",
+    a: ["9.58 secunde", "9.63 secunde", "9.72 secunde", "9.50 secunde"], correct: 0 },
+
+  { cat: "Sport General", pts: 10,
+    q: "Câte titluri NBA a câștigat Michael Jordan cu Chicago Bulls?",
+    a: ["6", "5", "4", "7"], correct: 0 },
+
+  { cat: "Sport General", pts: 10,
+    q: "Serena Williams a câștigat câte titluri de Grand Slam?",
+    a: ["23", "21", "19", "25"], correct: 0 },
+
+  { cat: "Sport General", pts: 10,
+    q: "Țara care a organizat Jocurile Olimpice de vară din 2020 (desfășurate în 2021)?",
+    a: ["Japonia", "China", "Brazilia", "Coreea de Sud"], correct: 0 },
+
+  { cat: "Sport General", pts: 10,
+    q: "Câte titluri mondiale de Formula 1 are Lewis Hamilton?",
+    a: ["7", "6", "5", "8"], correct: 0 },
+
+  { cat: "Sport General", pts: 10,
+    q: "Care echipă de baschet NBA a câștigat cele mai multe titluri din istoria ligii?",
+    a: ["Boston Celtics", "Los Angeles Lakers", "Chicago Bulls", "Golden State Warriors"], correct: 0 },
+
+  { cat: "Sport General", pts: 10,
+    q: "La ce sport evoluează Novak Djokovic?",
+    a: ["Tenis", "Squash", "Badminton", "Padel"], correct: 0 },
+
+  { cat: "Sport General", pts: 10,
+    q: "Câte titluri de Grand Slam a câștigat Novak Djokovic?",
+    a: ["24", "22", "21", "23"], correct: 0 },
+
+  { cat: "Sport General", pts: 10,
+    q: "Maratonul olimpic are distanța de:",
+    a: ["42.195 km", "40 km", "42 km", "43 km"], correct: 0 },
+
+  // ── EURO FOTBAL ──────────────────────────────────────
+  { cat: "Euro Fotbal", pts: 10,
+    q: "Cine a câștigat UEFA Euro 2020 (desfășurat în 2021)?",
+    a: ["Italia", "Anglia", "Spania", "Danemarca"], correct: 0 },
+
+  { cat: "Euro Fotbal", pts: 10,
+    q: "Care țară a câștigat cele mai multe titluri la Campionatul European (UEFA Euro)?",
+    a: ["Germania / Germania de Vest", "Spania", "Franța", "Italia"], correct: 0 },
+
+  { cat: "Euro Fotbal", pts: 10,
+    q: "Unde s-a jucat finala UEFA Euro 2024?",
+    a: ["Berlin", "München", "Dortmund", "Hamburg"], correct: 0 },
+
+  { cat: "Euro Fotbal", pts: 10,
+    q: "Cine a câștigat UEFA Euro 2024?",
+    a: ["Spania", "Anglia", "Germania", "Franța"], correct: 0 },
+
+  { cat: "Euro Fotbal", pts: 10,
+    q: "Cine a câștigat primul Campionat European de Fotbal din 1960?",
+    a: ["URSS", "Iugoslavia", "Franța", "Cehoslovacia"], correct: 0 },
+
+  { cat: "Euro Fotbal", pts: 10,
+    q: "La Euro 2016, Cristiano Ronaldo a câștigat titlul cu care echipă națională?",
+    a: ["Portugalia", "Franța", "Spania", "Croația"], correct: 0 },
+
+  { cat: "Euro Fotbal", pts: 10,
+    q: "Danemarca a câștigat în mod surprinzător UEFA Euro în ce an?",
+    a: ["1992", "1988", "1996", "2000"], correct: 0 },
+
+  { cat: "Euro Fotbal", pts: 10,
+    q: "Grecia a câștigat în mod surprinzător UEFA Euro în ce an?",
+    a: ["2004", "2000", "2008", "2012"], correct: 0 },
+
+  { cat: "Euro Fotbal", pts: 10,
+    q: "Cine deține recordul de goluri marcate la turneele finale ale Campionatului European?",
+    a: ["Cristiano Ronaldo", "Michel Platini", "Zlatan Ibrahimović", "Ruud van Nistelrooy"], correct: 0 },
+
+  // ── FOTBAL MONDIAL (extra) ────────────────────────────
+  { cat: "Fotbal Mondial", pts: 10,
+    q: "Lionel Messi a câștigat câte Baloane de Aur?",
+    a: ["8", "7", "6", "5"], correct: 0 },
+
+  { cat: "Fotbal Mondial", pts: 10,
+    q: "Cristiano Ronaldo a câștigat câte Baloane de Aur?",
+    a: ["5", "6", "4", "7"], correct: 0 },
+
+  { cat: "Fotbal Mondial", pts: 10,
+    q: "La ce club a evoluat Zinedine Zidane în vârful carierei sale?",
+    a: ["Real Madrid", "Juventus", "Marseille", "Bordeaux"], correct: 0 },
+
+  { cat: "Fotbal Mondial", pts: 10,
+    q: "Pep Guardiola a câștigat Champions League ca antrenor cu care club?",
+    a: ["Manchester City", "Barcelona", "Bayern Munich", "Toți cei trei"], correct: 3 },
+
+  { cat: "Fotbal Mondial", pts: 10,
+    q: "Care jucător este cunoscut ca „El Fenómeno"?",
+    a: ["Ronaldo (Brazilia)", "Ronaldinho", "Rivaldo", "Romário"], correct: 0 },
+
+  { cat: "Fotbal Mondial", pts: 10,
+    q: "Ronaldinho a câștigat Balonul de Aur în ce an?",
+    a: ["2005", "2004", "2006", "2003"], correct: 0 },
+
+  { cat: "Fotbal Mondial", pts: 10,
+    q: "Care a fost primul african câștigător al Balonului de Aur?",
+    a: ["George Weah", "Samuel Eto'o", "Didier Drogba", "Yaya Touré"], correct: 0 },
+
+  { cat: "Fotbal Mondial", pts: 10,
+    q: "La ce club a jucat Johan Cruyff cel mai mult?",
+    a: ["Ajax", "Barcelona", "Feyenoord", "LA Aztecs"], correct: 0 },
+
+  { cat: "Fotbal Mondial", pts: 10,
+    q: "Câte goluri a marcat Gerd Müller pentru Germania de Vest la Cupa Mondială 1970?",
+    a: ["10", "8", "7", "9"], correct: 0 },
+
+  { cat: "Fotbal Mondial", pts: 10,
+    q: "Care este recordul de goluri marcate de o echipă într-un singur meci la Cupa Mondială?",
+    a: ["10-0 (Ungaria vs El Salvador, 1982)", "9-0 (Iugoslavia vs Zair, 1974)", "8-0", "11-0"], correct: 0 },
+
+  { cat: "Fotbal Mondial", pts: 10,
+    q: "Kylian Mbappé a semnat cu care club în vara lui 2024?",
+    a: ["Real Madrid", "Paris Saint-Germain", "Liverpool", "Bayern Munich"], correct: 0 },
+];
+
+// ══════════════════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════════════════
+const LS_KEY = 'ftq_history_v2';
+let state = {
+  player: '',
+  qCount: 10,
+  questions: [],
+  current: 0,
+  score: 0,
+  correctCount: 0,
+  answered: false,
+};
+
+// ══════════════════════════════════════════════════════════
+//  UTILS
+// ══════════════════════════════════════════════════════════
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function show(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function grade(correct, total) {
+  const pct = correct / total;
+  if (pct >= 0.9) return 'S';
+  if (pct >= 0.7) return 'A';
+  if (pct >= 0.5) return 'B';
+  return 'C';
+}
+
+function gradeLabel(g) {
+  return { S: '🏆 Fenomenal!', A: '⚽ Foarte bine!', B: '👍 Bine!', C: '📚 Mai exersează!' }[g];
+}
+
+function formatDate(ts) {
+  const d = new Date(ts);
+  return d.toLocaleDateString('ro-RO', { day: '2-digit', month: 'short', year: 'numeric' })
+    + ' ' + d.toLocaleTimeString('ro-RO', { hour: '2-digit', minute: '2-digit' });
+}
+
+// ══════════════════════════════════════════════════════════
+//  LOCAL STORAGE
+// ══════════════════════════════════════════════════════════
+function loadHistory() {
+  try { return JSON.parse(localStorage.getItem(LS_KEY)) || []; }
+  catch { return []; }
+}
+
+function saveGame(entry) {
+  const h = loadHistory();
+  h.unshift(entry);
+  localStorage.setItem(LS_KEY, JSON.stringify(h));
+}
+
+// ══════════════════════════════════════════════════════════
+//  SETUP
+// ══════════════════════════════════════════════════════════
+function setQCount(n, btn) {
+  state.qCount = n;
+  document.querySelectorAll('.q-count-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function showLanding() {
+  show('screen-landing');
+  const saved = localStorage.getItem('ftq_last_player');
+  if (saved) document.getElementById('player-name-input').value = saved;
+}
+
+// ══════════════════════════════════════════════════════════
+//  GAME START
+// ══════════════════════════════════════════════════════════
+function startGame() {
+  const nameInput = document.getElementById('player-name-input').value.trim();
+  if (!nameInput) {
+    document.getElementById('player-name-input').focus();
+    document.getElementById('player-name-input').style.borderColor = 'var(--red)';
+    setTimeout(() => document.getElementById('player-name-input').style.borderColor = '', 1200);
+    return;
+  }
+  state.player = nameInput;
+  localStorage.setItem('ftq_last_player', nameInput);
+
+  // pick random questions (no repeats)
+  const pool = shuffle(QUESTIONS);
+  state.questions = pool.slice(0, Math.min(state.qCount, pool.length));
+  // shuffle answers within each question
+  state.questions = state.questions.map(q => {
+    const combined = q.a.map((txt, i) => ({ txt, isCorrect: i === q.correct }));
+    const shuffled = shuffle(combined);
+    return { ...q, shuffled, correctIdx: shuffled.findIndex(c => c.isCorrect) };
+  });
+
+  state.current = 0;
+  state.score = 0;
+  state.correctCount = 0;
+
+  document.getElementById('hud-player').textContent = state.player;
+  show('screen-game');
+  renderQuestion();
+}
+
+// ══════════════════════════════════════════════════════════
+//  RENDER QUESTION
+// ══════════════════════════════════════════════════════════
+function renderQuestion() {
+  const q = state.questions[state.current];
+  state.answered = false;
+
+  // progress
+  const pct = (state.current / state.questions.length) * 100;
+  document.getElementById('progress-bar').style.width = pct + '%';
+  document.getElementById('hud-score').textContent = state.score + ' PTS';
+
+  document.getElementById('q-category').textContent = q.cat;
+  document.getElementById('q-counter').textContent = `Întrebarea ${state.current + 1} din ${state.questions.length}`;
+  document.getElementById('q-text').textContent = q.q;
+
+  // feedback reset
+  const fb = document.getElementById('feedback-bar');
+  fb.className = 'feedback-bar';
+
+  // next btn reset
+  const nb = document.getElementById('next-btn');
+  nb.className = 'next-btn';
+  nb.textContent = state.current < state.questions.length - 1 ? 'URMĂTOAREA →' : 'REZULTAT FINAL →';
+
+  // choices
+  const grid = document.getElementById('choices-grid');
+  grid.innerHTML = '';
+  const letters = ['A', 'B', 'C', 'D'];
+  q.shuffled.forEach((choice, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.innerHTML = `<span class="choice-letter">${letters[i]}</span><span>${choice.txt}</span>`;
+    btn.onclick = () => selectAnswer(i, choice.isCorrect, q.pts);
+    grid.appendChild(btn);
+  });
+}
+
+// ══════════════════════════════════════════════════════════
+//  SELECT ANSWER
+// ══════════════════════════════════════════════════════════
+function selectAnswer(idx, isCorrect, pts) {
+  if (state.answered) return;
+  state.answered = true;
+
+  const grid = document.getElementById('choices-grid');
+  const btns = grid.querySelectorAll('.choice-btn');
+  const q = state.questions[state.current];
+
+  btns.forEach((btn, i) => {
+    btn.disabled = true;
+    if (i === q.correctIdx) btn.classList.add('reveal-correct');
+  });
+
+  const fb = document.getElementById('feedback-bar');
+  const fbText = document.getElementById('feedback-text');
+  const fbPts = document.getElementById('feedback-pts');
+
+  if (isCorrect) {
+    state.score += pts;
+    state.correctCount++;
+    btns[idx].classList.remove('reveal-correct');
+    btns[idx].classList.add('correct');
+    fb.className = 'feedback-bar correct-fb show';
+    fbText.textContent = '✓ Corect!';
+    fbPts.textContent = '+' + pts + 'p';
+  } else {
+    btns[idx].classList.add('wrong');
+    btns[q.correctIdx].classList.remove('reveal-correct');
+    btns[q.correctIdx].classList.add('correct');
+    fb.className = 'feedback-bar wrong-fb show';
+    fbText.textContent = '✗ Greșit — răspuns corect marcat';
+    fbPts.textContent = '+0p';
+  }
+
+  document.getElementById('hud-score').textContent = state.score + ' PTS';
+  document.getElementById('next-btn').classList.add('show');
+}
+
+// ══════════════════════════════════════════════════════════
+//  NEXT / END
+// ══════════════════════════════════════════════════════════
+function nextQuestion() {
+  state.current++;
+  if (state.current >= state.questions.length) {
+    endGame();
+  } else {
+    renderQuestion();
+  }
+}
+
+function endGame() {
+  const g = grade(state.correctCount, state.questions.length);
+  const entry = {
+    player: state.player,
+    score: state.score,
+    correct: state.correctCount,
+    total: state.questions.length,
+    grade: g,
+    ts: Date.now(),
+  };
+  saveGame(entry);
+
+  // render result screen
+  const badge = document.getElementById('result-grade-badge');
+  badge.className = 'grade-badge grade-' + g;
+  badge.textContent = g;
+
+  document.getElementById('result-score-big').textContent = state.score;
+  document.getElementById('result-name').textContent = state.player;
+  document.getElementById('result-correct').innerHTML =
+    `<span>${state.correctCount}</span> / ${state.questions.length} răspunsuri corecte · ${gradeLabel(g)}`;
+
+  document.getElementById('progress-bar').style.width = '100%';
+  show('screen-result');
+}
+
+function playAgain() {
+  startGame();
+}
+
+// ══════════════════════════════════════════════════════════
+//  HISTORY
+// ══════════════════════════════════════════════════════════
+let historyFilter = 'all';
+
+function showHistory() {
+  renderHistory();
+  show('screen-history');
+}
+
+function renderHistory() {
+  const history = loadHistory();
+
+  // build player list
+  const players = ['all', ...new Set(history.map(h => h.player))];
+
+  // filter buttons
+  const pf = document.getElementById('player-filter');
+  pf.innerHTML = players.map(p => `
+    <button class="player-filter-btn ${historyFilter === p ? 'active' : ''}"
+      onclick="filterHistory('${p.replace(/'/g, "\\'")}')">
+      ${p === 'all' ? '👥 Toți' : p}
+    </button>
+  `).join('');
+
+  const filtered = historyFilter === 'all' ? history : history.filter(h => h.player === historyFilter);
+
+  // stats
+  const statsBar = document.getElementById('stats-bar');
+  if (filtered.length > 0) {
+    const bestScore = Math.max(...filtered.map(h => h.score));
+    const avgScore = Math.round(filtered.reduce((s, h) => s + h.score, 0) / filtered.length);
+    const totalGames = filtered.length;
+    statsBar.innerHTML = `
+      <div class="stat-cell"><div class="stat-val">${totalGames}</div><div class="stat-lbl">Jocuri</div></div>
+      <div class="stat-cell"><div class="stat-val">${bestScore}</div><div class="stat-lbl">Record</div></div>
+      <div class="stat-cell"><div class="stat-val">${avgScore}</div><div class="stat-lbl">Medie pts</div></div>
+    `;
+    statsBar.style.display = 'grid';
+  } else {
+    statsBar.style.display = 'none';
+  }
+
+  // list
+  const list = document.getElementById('history-list');
+  if (filtered.length === 0) {
+    list.innerHTML = '<div class="empty-state">Nu există jocuri înregistrate.<br>Joacă primul quiz! ⚽</div>';
+    return;
+  }
+  list.innerHTML = filtered.map(h => `
+    <div class="history-item">
+      <div class="hi-grade grade-${h.grade}">${h.grade}</div>
+      <div class="hi-info">
+        <div class="hi-player">${h.player}</div>
+        <div class="hi-meta">${h.correct}/${h.total} corecte · ${formatDate(h.ts)}</div>
+      </div>
+      <div>
+        <div class="hi-score">${h.score}</div>
+        <div class="hi-pts-label">PUNCTE</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterHistory(player) {
+  historyFilter = player;
+  renderHistory();
+}
+
+// ── INIT ──────────────────────────────────────────────────
+showLanding();
+</script>
+</body>
+</html>
