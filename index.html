@@ -25,11 +25,11 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: var(--black); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; overflow-x: hidden; }
 
-/* ─── SCREENS ──────────────────────────────── */
+/* ─-- SCREENS --────────────────────────────-- */
 .screen { display: none; min-height: 100vh; }
 .screen.active { display: flex; flex-direction: column; }
 
-/* ─── LANDING ──────────────────────────────── */
+/* ─-- LANDING --────────────────────────────-- */
 #screen-landing {
   align-items: center;
   justify-content: center;
@@ -131,7 +131,7 @@ body { background: var(--black); color: var(--text); font-family: 'Inter', sans-
 }
 .history-link:hover { color: var(--green); }
 
-/* ─── GAME SCREEN ──────────────────────────── */
+/* ─-- GAME SCREEN --────────────────────────-- */
 #screen-game {
   align-items: center;
   padding: 0 16px 60px;
@@ -301,7 +301,7 @@ body { background: var(--black); color: var(--text); font-family: 'Inter', sans-
 .next-btn.show { opacity: 1; pointer-events: all; }
 .next-btn:hover { background: var(--card); border-color: var(--green); color: var(--green); }
 
-/* ─── RESULT SCREEN ────────────────────────── */
+/* ─-- RESULT SCREEN --──────────────────────-- */
 #screen-result {
   align-items: center;
   justify-content: center;
@@ -380,7 +380,7 @@ body { background: var(--black); color: var(--text); font-family: 'Inter', sans-
 .grade-B { background: rgba(41,121,255,0.12); border: 2px solid var(--blue); color: var(--blue); }
 .grade-C { background: rgba(255,23,68,0.1); border: 2px solid var(--red); color: #ff6b6b; }
 
-/* ─── HISTORY SCREEN ───────────────────────── */
+/* ─-- HISTORY SCREEN --─────────────────────-- */
 #screen-history {
   align-items: center;
   padding: 32px 20px 60px;
@@ -560,7 +560,7 @@ body { background: var(--black); color: var(--text); font-family: 'Inter', sans-
 <!-- ════ GAME ════ -->
 <div id="screen-game" class="screen">
   <div class="game-topbar">
-    <div class="topbar-player">Jucător: <span id="hud-player">—</span></div>
+    <div class="topbar-player">Jucător: <span id="hud-player">-</span></div>
     <div class="progress-wrap"><div class="progress-bar" id="progress-bar"></div></div>
     <div class="topbar-score" id="hud-score">0 PTS</div>
   </div>
@@ -605,13 +605,13 @@ body { background: var(--black); color: var(--text); font-family: 'Inter', sans-
 </div>
 
 <script>
-// ══════════════════════════════════════════════════════════
-//  QUESTION BANK  — categorii: Superfotbal RO, Champions League,
+// ================================================
+//  QUESTION BANK  - categorii: Superfotbal RO, Champions League,
 //  Cupa Mondială, Sport General, Euro Fotbal, Fotbal Mondial
-// ══════════════════════════════════════════════════════════
+// ================================================
 const QUESTIONS = [
 
-  // ── SUPERFOTBAL ROMÂNESC ───────────────────────────────
+  // -- SUPERFOTBAL ROMÂNESC --─────────────────────────────
   { cat: "Superfotbal Românesc", pts: 10,
     q: "Care club românesc a câștigat cele mai multe titluri de campioană din istoria fotbalului românesc?",
     a: ["Steaua București", "Dinamo", "Rapid", "CFR Cluj"], correct: 0 },
@@ -660,7 +660,7 @@ const QUESTIONS = [
     q: "Cum se numește baza de pregătire a echipei naționale a României?",
     a: ["Mogoșoaia", "Snagov", "Buftea", "Otopeni"], correct: 0 },
 
-  // ── CHAMPIONS LEAGUE ─────────────────────────────────
+  // -- CHAMPIONS LEAGUE --───────────────────────────────
   { cat: "Champions League", pts: 10,
     q: "Cine deține recordul de goluri marcate în Champions League?",
     a: ["Cristiano Ronaldo", "Lionel Messi", "Raúl", "Robert Lewandowski"], correct: 0 },
@@ -705,7 +705,7 @@ const QUESTIONS = [
     q: "Cine a câștigat Champions League 2020 cu Bayern Munich, marcând de două ori în finală?",
     a: ["Kingsley Coman", "Robert Lewandowski", "Thomas Müller", "Serge Gnabry"], correct: 0 },
 
-  // ── CUPA MONDIALĂ ────────────────────────────────────
+  // -- CUPA MONDIALĂ --──────────────────────────────────
   { cat: "Cupa Mondială", pts: 10,
     q: "Care țară a câștigat cele mai multe Cupe Mondiale?",
     a: ["Brazilia", "Germania", "Italia", "Argentina"], correct: 0 },
@@ -754,7 +754,7 @@ const QUESTIONS = [
     q: "Care echipă africană a ajuns prima dată în semifinalele Cupei Mondiale în 2022?",
     a: ["Maroc", "Senegal", "Camerun", "Ghana"], correct: 0 },
 
-  // ── SPORT GENERAL ────────────────────────────────────
+  // -- SPORT GENERAL --──────────────────────────────────
   { cat: "Sport General", pts: 10,
     q: "Câte titluri Grand Slam a câștigat Rafael Nadal în total?",
     a: ["22", "20", "21", "23"], correct: 0 },
@@ -803,7 +803,7 @@ const QUESTIONS = [
     q: "Maratonul olimpic are distanța de:",
     a: ["42.195 km", "40 km", "42 km", "43 km"], correct: 0 },
 
-  // ── EURO FOTBAL ──────────────────────────────────────
+  // -- EURO FOTBAL --────────────────────────────────────
   { cat: "Euro Fotbal", pts: 10,
     q: "Cine a câștigat UEFA Euro 2020 (desfășurat în 2021)?",
     a: ["Italia", "Anglia", "Spania", "Danemarca"], correct: 0 },
@@ -840,7 +840,7 @@ const QUESTIONS = [
     q: "Cine deține recordul de goluri marcate la turneele finale ale Campionatului European?",
     a: ["Cristiano Ronaldo", "Michel Platini", "Zlatan Ibrahimović", "Ruud van Nistelrooy"], correct: 0 },
 
-  // ── FOTBAL MONDIAL (extra) ────────────────────────────
+  // -- FOTBAL MONDIAL (extra) --──────────────────────────
   { cat: "Fotbal Mondial", pts: 10,
     q: "Lionel Messi a câștigat câte Baloane de Aur?",
     a: ["8", "7", "6", "5"], correct: 0 },
@@ -858,7 +858,7 @@ const QUESTIONS = [
     a: ["Manchester City", "Barcelona", "Bayern Munich", "Toți cei trei"], correct: 3 },
 
   { cat: "Fotbal Mondial", pts: 10,
-    q: "Care jucător este cunoscut ca „El Fenómeno"?",
+    q: "Care jucător este cunoscut ca 'El Fenomeno'?",
     a: ["Ronaldo (Brazilia)", "Ronaldinho", "Rivaldo", "Romário"], correct: 0 },
 
   { cat: "Fotbal Mondial", pts: 10,
@@ -886,9 +886,9 @@ const QUESTIONS = [
     a: ["Real Madrid", "Paris Saint-Germain", "Liverpool", "Bayern Munich"], correct: 0 },
 ];
 
-// ══════════════════════════════════════════════════════════
+// ================================================
 //  STATE
-// ══════════════════════════════════════════════════════════
+// ================================================
 const LS_KEY = 'ftq_history_v2';
 let state = {
   player: '',
@@ -900,9 +900,9 @@ let state = {
   answered: false,
 };
 
-// ══════════════════════════════════════════════════════════
+// ================================================
 //  UTILS
-// ══════════════════════════════════════════════════════════
+// ================================================
 function shuffle(arr) {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
@@ -935,9 +935,9 @@ function formatDate(ts) {
     + ' ' + d.toLocaleTimeString('ro-RO', { hour: '2-digit', minute: '2-digit' });
 }
 
-// ══════════════════════════════════════════════════════════
+// ================================================
 //  LOCAL STORAGE
-// ══════════════════════════════════════════════════════════
+// ================================================
 function loadHistory() {
   try { return JSON.parse(localStorage.getItem(LS_KEY)) || []; }
   catch { return []; }
@@ -949,9 +949,9 @@ function saveGame(entry) {
   localStorage.setItem(LS_KEY, JSON.stringify(h));
 }
 
-// ══════════════════════════════════════════════════════════
+// ================================================
 //  SETUP
-// ══════════════════════════════════════════════════════════
+// ================================================
 function setQCount(n, btn) {
   state.qCount = n;
   document.querySelectorAll('.q-count-btn').forEach(b => b.classList.remove('active'));
@@ -964,9 +964,9 @@ function showLanding() {
   if (saved) document.getElementById('player-name-input').value = saved;
 }
 
-// ══════════════════════════════════════════════════════════
+// ================================================
 //  GAME START
-// ══════════════════════════════════════════════════════════
+// ================================================
 function startGame() {
   const nameInput = document.getElementById('player-name-input').value.trim();
   if (!nameInput) {
@@ -997,9 +997,9 @@ function startGame() {
   renderQuestion();
 }
 
-// ══════════════════════════════════════════════════════════
+// ================================================
 //  RENDER QUESTION
-// ══════════════════════════════════════════════════════════
+// ================================================
 function renderQuestion() {
   const q = state.questions[state.current];
   state.answered = false;
@@ -1035,9 +1035,9 @@ function renderQuestion() {
   });
 }
 
-// ══════════════════════════════════════════════════════════
+// ================================================
 //  SELECT ANSWER
-// ══════════════════════════════════════════════════════════
+// ================================================
 function selectAnswer(idx, isCorrect, pts) {
   if (state.answered) return;
   state.answered = true;
@@ -1068,7 +1068,7 @@ function selectAnswer(idx, isCorrect, pts) {
     btns[q.correctIdx].classList.remove('reveal-correct');
     btns[q.correctIdx].classList.add('correct');
     fb.className = 'feedback-bar wrong-fb show';
-    fbText.textContent = '✗ Greșit — răspuns corect marcat';
+    fbText.textContent = '✗ Greșit - răspuns corect marcat';
     fbPts.textContent = '+0p';
   }
 
@@ -1076,9 +1076,9 @@ function selectAnswer(idx, isCorrect, pts) {
   document.getElementById('next-btn').classList.add('show');
 }
 
-// ══════════════════════════════════════════════════════════
+// ================================================
 //  NEXT / END
-// ══════════════════════════════════════════════════════════
+// ================================================
 function nextQuestion() {
   state.current++;
   if (state.current >= state.questions.length) {
@@ -1118,9 +1118,9 @@ function playAgain() {
   startGame();
 }
 
-// ══════════════════════════════════════════════════════════
+// ================================================
 //  HISTORY
-// ══════════════════════════════════════════════════════════
+// ================================================
 let historyFilter = 'all';
 
 function showHistory() {
@@ -1187,7 +1187,7 @@ function filterHistory(player) {
   renderHistory();
 }
 
-// ── INIT ──────────────────────────────────────────────────
+// -- INIT --────────────────────────────────────────────────
 showLanding();
 </script>
 </body>
